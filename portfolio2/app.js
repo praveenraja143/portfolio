@@ -1,9 +1,9 @@
-// Portfolio 2: Cinematic Transformation Engine & Mouse Spotlight
+// Portfolio 2: Full Scrollable Cinematic Motion Engine
 
 document.addEventListener('DOMContentLoaded', () => {
   initPreloader();
   initAudioEngine();
-  initNavbarSlider();
+  initScrollNavObserver();
   initMouseSpotlight();
   initCategorySwapTabs();
   initSkillFilterSwap();
@@ -38,7 +38,7 @@ function initPreloader() {
   }, 60);
 }
 
-/* 2. Audio Effects Synthesizer */
+/* 2. Audio Effects Engine */
 let audioActive = true;
 let audioContext = null;
 
@@ -105,74 +105,67 @@ function initMouseSpotlight() {
   });
 }
 
-/* 4. Navbar Slider & Cinematic Scene Flip Transition */
-function initNavbarSlider() {
+/* 4. Scroll-Driven Intersection Observer & Active Navbar Pill Slider */
+function initScrollNavObserver() {
+  const stages = document.querySelectorAll('.scene-stage');
   const pills = document.querySelectorAll('.nav-pill');
   const slider = document.getElementById('nav-slider');
 
-  if (!pills.length || !slider) return;
-
-  function updateSliderPosition(btn) {
-    const parentRect = btn.parentElement.getBoundingClientRect();
-    const btnRect = btn.getBoundingClientRect();
-    slider.style.left = `${btnRect.left - parentRect.left}px`;
-    slider.style.width = `${btnRect.width}px`;
+  function updateSlider(activePill) {
+    if (!slider || !activePill) return;
+    const parentRect = activePill.parentElement.getBoundingClientRect();
+    const pillRect = activePill.getBoundingClientRect();
+    slider.style.left = `${pillRect.left - parentRect.left}px`;
+    slider.style.width = `${pillRect.width}px`;
   }
 
-  const activePill = document.querySelector('.nav-pill.active');
-  if (activePill) updateSliderPosition(activePill);
+  // Intersection Observer for scroll-driven scene reveal & active nav highlight
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
 
+        const id = entry.target.getAttribute('id');
+        pills.forEach(pill => {
+          pill.classList.remove('active');
+          if (pill.getAttribute('data-target') === id) {
+            pill.classList.add('active');
+            updateSlider(pill);
+          }
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+
+  stages.forEach(stage => observer.observe(stage));
+
+  // Navbar Pill Click for smooth scrolling
   pills.forEach(pill => {
     pill.addEventListener('click', () => {
-      pills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      updateSliderPosition(pill);
-
       const targetId = pill.getAttribute('data-target');
-      switchScene(targetId);
+      const targetElem = document.getElementById(targetId);
+
+      if (targetElem) {
+        targetElem.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      if (audioActive) playSound(640, 0.08, 'sine');
     });
   });
 
+  const firstActive = document.querySelector('.nav-pill.active');
+  if (firstActive) updateSlider(firstActive);
+
   window.addEventListener('resize', () => {
     const current = document.querySelector('.nav-pill.active');
-    if (current) updateSliderPosition(current);
+    if (current) updateSlider(current);
   });
 }
 
 window.switchScene = function(targetId) {
-  const currentActive = document.querySelector('.scene-stage.active');
-  const targetStage = document.getElementById(targetId);
-
-  if (!targetStage || currentActive === targetStage) return;
-
-  if (currentActive) {
-    currentActive.classList.remove('active');
-  }
-
-  targetStage.classList.add('entering');
-  setTimeout(() => {
-    targetStage.classList.remove('entering');
-    targetStage.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 50);
-
-  // Sound chime trigger
-  if (audioActive) playSound(640, 0.08, 'sine');
-
-  // Sync Navbar slider if triggered from page buttons
-  const matchingPill = document.querySelector(`.nav-pill[data-target="${targetId}"]`);
-  if (matchingPill) {
-    const pills = document.querySelectorAll('.nav-pill');
-    pills.forEach(p => p.classList.remove('active'));
-    matchingPill.classList.add('active');
-
-    const slider = document.getElementById('nav-slider');
-    if (slider) {
-      const parentRect = matchingPill.parentElement.getBoundingClientRect();
-      const btnRect = matchingPill.getBoundingClientRect();
-      slider.style.left = `${btnRect.left - parentRect.left}px`;
-      slider.style.width = `${btnRect.width}px`;
-    }
+  const target = document.getElementById(targetId);
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth' });
   }
 };
 
