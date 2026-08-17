@@ -1,129 +1,319 @@
-// Portfolio 2: Interactive Cyberpunk Terminal CLI Engine
+// Portfolio 2: Button Swap & Motion Design Logic Engine
 
 document.addEventListener('DOMContentLoaded', () => {
-  initTerminal();
+  initNavbarSlider();
+  initCategorySwapTabs();
+  initSkillFilterSwap();
+  initMotionCanvas();
+  initCustomCursor();
+  initTypewriter();
+  initTiltCard();
+  initModalSystem();
 });
 
-function initTerminal() {
-  const input = document.getElementById('term-input');
-  const history = document.getElementById('term-history');
-  const consoleBody = document.getElementById('console-body');
-  const clearBtn = document.getElementById('clear-term-btn');
-  const chipBtns = document.querySelectorAll('.chip-btn');
+/* 1. Navbar Button Swap & Slider Motion */
+function initNavbarSlider() {
+  const pillBtns = document.querySelectorAll('.nav-pill-btn');
+  const slider = document.getElementById('nav-slider');
+  const stages = document.querySelectorAll('.motion-stage');
 
-  if (!input || !history) return;
+  if (!pillBtns.length || !slider) return;
 
-  const COMMANDS = {
-    help: `
-Available Commands:
-  • <span class="neon-cyan">bio</span>          : View Praveenraja's summary & academic profile
-  • <span class="neon-cyan">skills</span>       : List AI, ML, Python, Java & Blockchain technical skills
-  • <span class="neon-cyan">internships</span>  : Display 4 technical internship details (Coriza, CISPRO, Tech World)
-  • <span class="neon-cyan">projects</span>     : Inspect Zamin X, CopBot & Marine Domain Awareness System
-  • <span class="neon-cyan">achievements</span> : View awards, 8.80 CGPA rank 1, Niral Thiruvizha Top 500
-  • <span class="neon-cyan">contact</span>      : Email, phone, location & GitHub repository links
-  • <span class="neon-cyan">clear</span>        : Clear the terminal output buffer
-`,
-    bio: `
-<span class="neon-green">=== PRAVEENRAJA P - AI ENGINEER PROFILE ===</span>
-• Degree     : B.Tech in Artificial Intelligence and Data Science
-• Institution: JKKM College of Technology (2023 - 2027)
-• Performance: <span class="neon-cyan">8.80 CGPA</span> (Class Topper 2025)
-• Focus      : Generative AI, LLMs, Computer Vision, Smart Contracts, Rapid Prototyping
-`,
-    skills: `
-<span class="neon-green">=== TECHNICAL SKILL MATRIX ===</span>
-[AI & ML]    : Generative AI, LLM Prompt Engineering, Computer Vision, OpenCV, Deep Learning
-[CORE CODE]  : Python (Expert), Java (Intermediate+), Data Structures & Algorithms
-[BLOCKCHAIN] : Tamper-Proof Land Ownership (Zamin X), Smart Contracts, Folium Maps
-[DEV TOOLS]  : Git, GitHub, VS Code, Windsurf, Streamlit, Linux/Windows OS
-`,
-    internships: `
-<span class="neon-green">=== 4 TECHNICAL INTERNSHIPS ===</span>
-1. <span class="neon-cyan">Cloud Computing Intern @ Coriza</span> [Jun 2026]
-   - Cloud pipeline architecture, serverless deployment, scalable infrastructure.
-2. <span class="neon-cyan">Generative AI Intern @ CISPRO, Coimbatore</span> [Jun 2025 – Jul 2025]
-   - Prompt engineering workflows, GenAI chatbot integration & AI legal query logic.
-3. <span class="neon-cyan">Machine Learning Intern @ Tech World, Coimbatore</span> [Jan 2025 – Feb 2025]
-   - Dataset preprocessing, predictive modeling, regression/classification algorithms.
-4. <span class="neon-cyan">Python Developer Intern @ CISPRO, Coimbatore</span> [Jun 2024 – Jul 2024]
-   - Modular Python backend scripts, automated file system parsers & UI integration.
-`,
-    projects: `
-<span class="neon-green">=== FEATURED PROJECT SHOWCASE ===</span>
-1. <span class="neon-cyan">Zamin X</span> - Land Ownership & Dispute Resolution System
-   - Tech: Python, Streamlit, Blockchain, Folium Maps, JSON
-   - Overview: Blockchain-backed land registry eliminating dispute delays and fraud.
+  function updateSliderPosition(btn) {
+    const parentRect = btn.parentElement.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
 
-2. <span class="neon-cyan">CopBot</span> - AI FIR & Legal Assistant
-   - Tech: Generative AI, Prompt Engineering, JavaScript, Python
-   - Overview: Instant AI public legal query resolution and automated FIR registration.
+    const left = btnRect.left - parentRect.left;
+    const width = btnRect.width;
 
-3. <span class="neon-cyan">Marine Domain Awareness System</span>
-   - Tech: Deep Learning, Computer Vision, OpenCV, Python
-   - Overview: Vessel movement detection and maritime coastline security tracking.
-`,
-    achievements: `
-<span class="neon-green">=== HONORS & MILESTONES ===</span>
-🏆 Class Topper 2025 (8.80 CGPA)
-🏆 Winner - State Level Project Exposition 2025
-🏆 Top 500 Teams - Niral Thiruvizha 3.0 Hackathon
-🏆 Student Head - Institution Innovation Council (IIC)
-🏆 Participated in 15+ Technical Symposium Presentations & 5 Expos
-`,
-    contact: `
-<span class="neon-green">=== CONTACT INFORMATION ===</span>
-📧 Email    : <a href="mailto:Praveenrajapaids23@jkkmct.edu.in" class="neon-cyan">Praveenrajapaids23@jkkmct.edu.in</a>
-📱 Phone    : <a href="tel:+917603835392" class="neon-green">+91 7603835392</a>
-📍 Location : Coimbatore, Tamil Nadu, India
-💻 GitHub   : <a href="https://github.com/praveenraja143" target="_blank" class="neon-violet">https://github.com/praveenraja143</a>
-`
-  };
-
-  function executeCommand(cmd) {
-    const trimmed = cmd.trim().toLowerCase();
-
-    // Create prompt line in history
-    const promptLine = document.createElement('div');
-    promptLine.className = 'term-line';
-    promptLine.innerHTML = `<span class="term-prompt">praveenraja@ai-core:~$</span> ${cmd}`;
-    history.appendChild(promptLine);
-
-    if (trimmed === 'clear') {
-      history.innerHTML = '';
-    } else if (COMMANDS[trimmed]) {
-      const outputLine = document.createElement('div');
-      outputLine.className = 'term-line';
-      outputLine.innerHTML = COMMANDS[trimmed];
-      history.appendChild(outputLine);
-    } else if (trimmed !== '') {
-      const errorLine = document.createElement('div');
-      errorLine.className = 'term-line';
-      errorLine.innerHTML = `<span style="color: #ef4444;">Command not recognized: '${cmd}'. Type <span class="neon-green">'help'</span> for available commands.</span>`;
-      history.appendChild(errorLine);
-    }
-
-    consoleBody.scrollTop = consoleBody.scrollHeight;
+    slider.style.left = `${left}px`;
+    slider.style.width = `${width}px`;
   }
 
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      const val = input.value;
-      input.value = '';
-      executeCommand(val);
-    }
+  // Set initial slider position on active button
+  const initialActive = document.querySelector('.nav-pill-btn.active');
+  if (initialActive) updateSliderPosition(initialActive);
+
+  pillBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      pillBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updateSliderPosition(btn);
+
+      const targetId = btn.getAttribute('data-target');
+      switchStage(targetId);
+    });
   });
 
-  if (clearBtn) {
-    clearBtn.addEventListener('click', () => {
-      history.innerHTML = '';
+  window.addEventListener('resize', () => {
+    const currentActive = document.querySelector('.nav-pill-btn.active');
+    if (currentActive) updateSliderPosition(currentActive);
+  });
+}
+
+function switchStage(targetId) {
+  const stages = document.querySelectorAll('.motion-stage');
+  stages.forEach(s => {
+    s.classList.remove('active');
+  });
+
+  const targetStage = document.getElementById(targetId);
+  if (targetStage) {
+    targetStage.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Also update navbar active state if triggered from hero button
+  const matchingPill = document.querySelector(`.nav-pill-btn[data-target="${targetId}"]`);
+  if (matchingPill) {
+    const pillBtns = document.querySelectorAll('.nav-pill-btn');
+    pillBtns.forEach(b => b.classList.remove('active'));
+    matchingPill.classList.add('active');
+
+    const slider = document.getElementById('nav-slider');
+    if (slider) {
+      const parentRect = matchingPill.parentElement.getBoundingClientRect();
+      const btnRect = matchingPill.getBoundingClientRect();
+      slider.style.left = `${btnRect.left - parentRect.left}px`;
+      slider.style.width = `${btnRect.width}px`;
+    }
+  }
+}
+
+/* 2. Category Tab Button Swap (Story Chapter) */
+function initCategorySwapTabs() {
+  const swapBtns = document.querySelectorAll('.swap-btn');
+  const panels = document.querySelectorAll('.swap-panel');
+
+  swapBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      swapBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const targetTab = btn.getAttribute('data-tab');
+
+      panels.forEach(panel => {
+        panel.classList.remove('active');
+        if (panel.id === `panel-${targetTab}`) {
+          panel.classList.add('active');
+        }
+      });
+    });
+  });
+}
+
+/* 3. Skills Category Filter Swap */
+function initSkillFilterSwap() {
+  const filterBtns = document.querySelectorAll('.skill-filter-btn');
+  const cards = document.querySelectorAll('.skill-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cat = btn.getAttribute('data-filter');
+
+      cards.forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+}
+
+/* 4. Motion Particle Canvas */
+function initMotionCanvas() {
+  const canvas = document.getElementById('motion-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  const particles = [];
+  const particleCount = Math.min(Math.floor(width / 15), 65);
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6,
+      radius: Math.random() * 2 + 1,
+      color: Math.random() > 0.5 ? 'rgba(0, 242, 254, ' : 'rgba(121, 40, 202, ',
+      alpha: Math.random() * 0.5 + 0.2
     });
   }
 
-  chipBtns.forEach(chip => {
-    chip.addEventListener('click', () => {
-      const cmd = chip.getAttribute('data-cmd');
-      executeCommand(cmd);
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0) p.x = width;
+      if (p.x > width) p.x = 0;
+      if (p.y < 0) p.y = height;
+      if (p.y > height) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + p.alpha + ')';
+      ctx.fill();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dx = p.x - p2.x;
+        const dy = p.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(0, 242, 254, ${0.12 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+/* 5. Custom Follower Cursor */
+function initCustomCursor() {
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+
+  if (!dot || !ring) return;
+
+  let rx = 0, ry = 0;
+  let mx = 0, my = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+    dot.style.left = `${mx}px`;
+    dot.style.top = `${my}px`;
+  });
+
+  function renderRing() {
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    ring.style.left = `${rx}px`;
+    ring.style.top = `${ry}px`;
+    requestAnimationFrame(renderRing);
+  }
+  renderRing();
+}
+
+/* 6. Typewriter Effect */
+function initTypewriter() {
+  const target = document.getElementById('typewriter');
+  if (!target) return;
+
+  const phrases = [
+    "AI & Data Science Architect",
+    "Generative AI & LLM Specialist",
+    "Machine Learning & Computer Vision",
+    "Blockchain Land Registry Builder"
+  ];
+
+  let phraseIdx = 0;
+  let charIdx = 0;
+  let isDeleting = false;
+
+  function type() {
+    const current = phrases[phraseIdx];
+
+    if (isDeleting) {
+      target.textContent = current.substring(0, charIdx - 1);
+      charIdx--;
+    } else {
+      target.textContent = current.substring(0, charIdx + 1);
+      charIdx++;
+    }
+
+    let speed = isDeleting ? 40 : 80;
+
+    if (!isDeleting && charIdx === current.length) {
+      speed = 2200;
+      isDeleting = true;
+    } else if (isDeleting && charIdx === 0) {
+      isDeleting = false;
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+      speed = 400;
+    }
+
+    setTimeout(type, speed);
+  }
+
+  type();
+}
+
+/* 7. 3D Tilt Card */
+function initTiltCard() {
+  const card = document.getElementById('tilt-card');
+  if (!card) return;
+
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    const rotX = (y / (rect.height / 2)) * -12;
+    const rotY = (x / (rect.width / 2)) * 12;
+
+    card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+  });
+}
+
+/* 8. Project Detail Modal System */
+function initModalSystem() {
+  const overlay = document.getElementById('modal-overlay');
+  const titleElem = document.getElementById('modal-title');
+  const descElem = document.getElementById('modal-desc');
+  const closeBtn = document.getElementById('modal-close-btn');
+
+  if (!overlay || !titleElem || !descElem) return;
+
+  const triggers = document.querySelectorAll('.btn-modal-trigger');
+  triggers.forEach(t => {
+    t.addEventListener('click', () => {
+      const title = t.getAttribute('data-title');
+      const desc = t.getAttribute('data-desc');
+
+      titleElem.textContent = title;
+      descElem.textContent = desc;
+
+      overlay.classList.add('active');
     });
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
+  }
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.classList.remove('active');
   });
 }

@@ -3,238 +3,413 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Praveenraja P | Cyberpunk AI Terminal & Command Center</title>
-  <meta name="description" content="Cyberpunk Interactive Terminal Portfolio of Praveenraja P - B.Tech AI & Data Science Specialist, ML, DL & Blockchain Developer.">
+  <title>Praveenraja P | Cinematic Motion & Button Swap Portfolio</title>
+  <meta name="description" content="Cinematic Developer Portfolio with interactive button swap animations and motion storytelling. Portfolio of Praveenraja P - B.Tech AI & Data Science Engineer.">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 
-  <!-- Cyber Scanline Overlay -->
-  <div class="scanlines"></div>
-  <div class="cyber-grid-bg"></div>
+  <!-- Background Particle Network -->
+  <canvas id="motion-canvas"></canvas>
 
-  <!-- Top Cyber Status Bar HUD -->
-  <div class="hud-topbar">
-    <div class="hud-left">
-      <span class="hud-symbol">⚡</span>
-      <span class="hud-title">SYSTEM ONLINE: PRAVEENRAJA_AI_CORE_v2.4</span>
-    </div>
+  <!-- Ambient Volumetric Lights -->
+  <div class="glow-sphere glow-1"></div>
+  <div class="glow-sphere glow-2"></div>
+  <div class="glow-sphere glow-3"></div>
 
-    <div class="hud-center">
-      <span class="hud-stat">STATUS: <span class="neon-green">ACTIVE</span></span>
-      <span class="hud-stat">CGPA: <span class="neon-cyan">8.80</span></span>
-      <span class="hud-stat">INTERNSHIPS: <span class="neon-violet">4</span></span>
-    </div>
+  <!-- Grain Overlay -->
+  <div class="grain-layer"></div>
 
-    <div class="hud-right">
-      <a href="../index.html" class="cyber-switch-btn">⇄ SWITCH PORTFOLIO</a>
-    </div>
-  </div>
+  <!-- Custom Cursor -->
+  <div id="cursor-dot" class="cursor-dot"></div>
+  <div id="cursor-ring" class="cursor-ring"></div>
 
-  <div class="cyber-container">
-    
-    <!-- HERO COMMAND CENTER HEADER -->
-    <header class="cyber-header">
-      <div class="cyber-badge">AI & DATA SCIENCE ENGINEER</div>
-      <h1 class="cyber-glitch-title" data-text="PRAVEENRAJA P">PRAVEENRAJA P</h1>
-      <p class="cyber-subtitle">&gt; SPECIALIZING IN GENERATIVE AI, MACHINE LEARNING, DEEP LEARNING & BLOCKCHAIN SYSTEMS</p>
-    </header>
+  <!-- Floating Header Navigation with Active Slider -->
+  <header class="navbar-wrapper">
+    <nav class="navbar glass-card">
+      <a href="../index.html" class="nav-brand">
+        PRAVEENRAJA <span class="brand-badge">MOTION v2</span>
+      </a>
 
-    <!-- INTERACTIVE CLI TERMINAL CONSOLE -->
-    <section class="cyber-console-box">
-      <div class="console-header">
-        <div class="console-buttons">
-          <span class="btn-dot red"></span>
-          <span class="btn-dot yellow"></span>
-          <span class="btn-dot green"></span>
-        </div>
-        <div class="console-title">praveenraja@ai-core:~$ (Interactive CLI Console)</div>
-        <div class="console-actions">
-          <button id="clear-term-btn" class="term-btn">CLEAR</button>
-        </div>
+      <!-- Button Swap Navigation Pills -->
+      <div class="nav-pills-container">
+        <div class="nav-active-pill-slider" id="nav-slider"></div>
+        <button class="nav-pill-btn active" data-target="hero-stage">Home</button>
+        <button class="nav-pill-btn" data-target="about-stage">Story</button>
+        <button class="nav-pill-btn" data-target="skills-stage">Skills</button>
+        <button class="nav-pill-btn" data-target="projects-stage">Projects</button>
+        <button class="nav-pill-btn" data-target="experience-stage">Internships</button>
+        <button class="nav-pill-btn" data-target="contact-stage">Contact</button>
       </div>
 
-      <div class="console-body" id="console-body">
-        <div class="term-line output-welcome">
-          Welcome to <span class="neon-cyan">Praveenraja P's Interactive AI Terminal</span> [Version 2.4.0].<br>
-          Type <span class="neon-green">'help'</span> or click the quick command chips below to explore!
+      <a href="#contact-stage" class="btn-glow-accent">Let's Connect</a>
+    </nav>
+  </header>
+
+  <!-- STAGE CONTAINER FOR BUTTON SWAP CONTENT -->
+  <main class="stage-container">
+
+    <!-- STAGE 01: HERO MOTION -->
+    <section class="motion-stage active" id="hero-stage">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            CINEMATIC DEVELOPER PORTFOLIO
+          </div>
+
+          <h1 class="hero-headline">
+            WHERE CODE MEETS <br>
+            <span class="gradient-text-glow">STORYTELLING & MOTION</span>
+          </h1>
+
+          <div class="typewriter-box">
+            <span class="prefix">Praveenraja P —</span>
+            <span id="typewriter" class="typewriter-text"></span>
+            <span class="typewriter-cursor">|</span>
+          </div>
+
+          <p class="hero-bio">
+            B.Tech AI & Data Science Engineer (8.80 CGPA Rank 1). Crafting high-impact Generative AI applications, Deep Learning computer vision models, and immutable Blockchain land registries.
+          </p>
+
+          <div class="hero-action-buttons">
+            <button class="btn-swap-primary" onclick="switchStage('projects-stage')">
+              <span>View Flagship Projects</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn-swap-glass" onclick="switchStage('about-stage')">
+              <span>Explore Story & Journey</span>
+            </button>
+          </div>
+
+          <!-- Highlight Stat Pills -->
+          <div class="stats-ribbon">
+            <div class="stat-pill">
+              <span class="val">8.80</span>
+              <span class="lbl">B.Tech CGPA</span>
+            </div>
+            <div class="stat-pill">
+              <span class="val">04</span>
+              <span class="lbl">Tech Internships</span>
+            </div>
+            <div class="stat-pill">
+              <span class="val">15+</span>
+              <span class="lbl">Symposium Papers</span>
+            </div>
+            <div class="stat-pill">
+              <span class="val">Top 500</span>
+              <span class="lbl">Niral Thiruvizha 3.0</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Quick Terminal Command Buttons -->
-        <div class="term-quick-chips">
-          <button class="chip-btn" data-cmd="bio">bio</button>
-          <button class="chip-btn" data-cmd="skills">skills</button>
-          <button class="chip-btn" data-cmd="internships">internships</button>
-          <button class="chip-btn" data-cmd="projects">projects</button>
-          <button class="chip-btn" data-cmd="achievements">achievements</button>
-          <button class="chip-btn" data-cmd="contact">contact</button>
-          <button class="chip-btn" data-cmd="clear">clear</button>
-        </div>
-
-        <div id="term-history"></div>
-
-        <!-- Input Line -->
-        <div class="term-input-line">
-          <span class="term-prompt">praveenraja@ai-core:~$</span>
-          <input type="text" id="term-input" class="term-input" placeholder="type 'help', 'skills', 'projects'..." autofocus autocomplete="off" spellcheck="false">
+        <!-- 3D Card Tilt Profile Frame -->
+        <div class="hero-right">
+          <div class="tilt-card-wrapper" id="tilt-card">
+            <div class="tilt-card glass-card">
+              <div class="card-image-box">
+                <img src="../praveenraja.jpg" alt="Praveenraja P" class="profile-img">
+                <div class="img-gradient-overlay"></div>
+              </div>
+              <div class="card-info">
+                <h3 class="name">PRAVEENRAJA P</h3>
+                <p class="role">AI & Data Science Architect</p>
+                <div class="loc">📍 Coimbatore, Tamil Nadu</div>
+                <div class="tags">
+                  <span>Generative AI</span>
+                  <span>Machine Learning</span>
+                  <span>Blockchain</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- HOLOGRAPHIC BENTO MATRIX -->
-    <section class="cyber-section">
-      <div class="cyber-section-title">
-        <span class="title-bracket">[</span> FEATURED AI & BLOCKCHAIN PROJECTS <span class="title-bracket">]</span>
+    <!-- STAGE 02: ABOUT & STORY SWAP -->
+    <section class="motion-stage" id="about-stage">
+      <div class="stage-header">
+        <span class="stage-tag">CHAPTER 01</span>
+        <h2 class="stage-title">The <span class="gradient-text-glow">Architect's Journey</span></h2>
+        <p class="stage-subtitle">Click the buttons below to swap between Academic Excellence, Prototyping, and Leadership.</p>
       </div>
 
-      <div class="holo-grid">
-        <!-- Project 1: Zamin X -->
-        <div class="holo-card">
-          <div class="card-glow-edge"></div>
-          <div class="holo-card-header">
-            <span class="holo-tag">PROJECT 01 // BLOCKCHAIN</span>
-            <span class="holo-status">LIVE SYSTEM</span>
+      <!-- Button Swap Category Selector -->
+      <div class="swap-button-bar">
+        <button class="swap-btn active" data-tab="academic">Academic Rank 1</button>
+        <button class="swap-btn" data-tab="ai-skills">Generative AI & Prototyping</button>
+        <button class="swap-btn" data-tab="blockchain">Blockchain Innovation</button>
+        <button class="swap-btn" data-tab="leadership">Student Leadership</button>
+      </div>
+
+      <!-- Swappable Card Content Display -->
+      <div class="swappable-content-box">
+        <div class="swap-panel active" id="panel-academic">
+          <div class="panel-card glass-card">
+            <div class="panel-icon">🎓</div>
+            <h3>B.Tech AI & Data Science (8.80 CGPA)</h3>
+            <p>Studying at JKKM College of Technology (2023 - 2027). Awarded <strong>Class Topper 2025</strong> for outstanding academic score and technical proficiency in core Data Structures, Algorithms, Python, and Machine Learning.</p>
           </div>
-          <h2 class="holo-card-title">ZAMIN X</h2>
-          <h3 class="holo-card-sub">Tamper-Proof Land Ownership & Dispute Resolution</h3>
-          <p class="holo-card-desc">
-            Immutable digital land registration and ownership transfer system using Blockchain architecture, Streamlit interactive dashboard, and Folium map visualizer to stop double-selling and data manipulation.
+        </div>
+
+        <div class="swap-panel" id="panel-ai-skills">
+          <div class="panel-card glass-card">
+            <div class="panel-icon">⚡</div>
+            <h3>Generative AI & Rapid Prototyping</h3>
+            <p>Specialized in LLM Prompt Engineering, custom AI agent workflows, automated code debugging, and Streamlit user interfaces. Built AI assistant platforms like <strong>CopBot</strong> for instant legal query resolution.</p>
+          </div>
+        </div>
+
+        <div class="swap-panel" id="panel-blockchain">
+          <div class="panel-card glass-card">
+            <div class="panel-icon">🌐</div>
+            <h3>Immutable Blockchain Systems</h3>
+            <p>Architect of <strong>Zamin X</strong>, a tamper-proof digital land registration and dispute resolution system utilizing cryptographic hashing, Streamlit UI, and Folium geospatial mapping to stop land fraud.</p>
+          </div>
+        </div>
+
+        <div class="swap-panel" id="panel-leadership">
+          <div class="panel-card glass-card">
+            <div class="panel-icon">🏆</div>
+            <h3>Student Head - Institution Innovation Council</h3>
+            <p>Leading the Institution Innovation Council (IIC). Organized 15+ technical symposiums, workshops, and hackathons. Winner of <strong>State Level Project Expo 2025</strong> and Top 500 finalist in Niral Thiruvizha 3.0.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 03: SKILLS MATRIX & INTERACTIVE SWAP -->
+    <section class="motion-stage" id="skills-stage">
+      <div class="stage-header">
+        <span class="stage-tag">CHAPTER 02</span>
+        <h2 class="stage-title">Neural <span class="gradient-text-glow">Skill Matrix</span></h2>
+        <p class="stage-subtitle">Filter skills by clicking the category buttons.</p>
+      </div>
+
+      <div class="swap-button-bar">
+        <button class="skill-filter-btn active" data-filter="all">All Skills</button>
+        <button class="skill-filter-btn" data-filter="ai">AI & ML</button>
+        <button class="skill-filter-btn" data-filter="code">Programming & DSA</button>
+        <button class="skill-filter-btn" data-filter="tools">Tools & Platforms</button>
+      </div>
+
+      <div class="skills-grid" id="skills-grid">
+        <div class="skill-card glass-card" data-cat="ai">
+          <div class="skill-head">
+            <span class="name">Generative AI & LLMs</span>
+            <span class="perc">95%</span>
+          </div>
+          <p>Prompt Engineering, AI Agents, Code Debugging, Custom AI Workflows.</p>
+          <div class="progress-bar"><div class="fill" style="width: 95%;"></div></div>
+        </div>
+
+        <div class="skill-card glass-card" data-cat="ai">
+          <div class="skill-head">
+            <span class="name">Machine Learning & DL</span>
+            <span class="perc">90%</span>
+          </div>
+          <p>Supervised/Unsupervised Models, Neural Networks, Computer Vision (YOLO/OpenCV).</p>
+          <div class="progress-bar"><div class="fill" style="width: 90%;"></div></div>
+        </div>
+
+        <div class="skill-card glass-card" data-cat="code">
+          <div class="skill-head">
+            <span class="name">Python Development</span>
+            <span class="perc">96%</span>
+          </div>
+          <p>NumPy, Pandas, Scikit-Learn, Streamlit, Folium, Automation Scripts.</p>
+          <div class="progress-bar"><div class="fill" style="width: 96%;"></div></div>
+        </div>
+
+        <div class="skill-card glass-card" data-cat="code">
+          <div class="skill-head">
+            <span class="name">Java & Data Structures</span>
+            <span class="perc">85%</span>
+          </div>
+          <p>Object-Oriented Programming, Arrays, Trees, Graphs, Sorting & Optimization.</p>
+          <div class="progress-bar"><div class="fill" style="width: 85%;"></div></div>
+        </div>
+
+        <div class="skill-card glass-card" data-cat="ai">
+          <div class="skill-head">
+            <span class="name">Blockchain & Smart Contracts</span>
+            <span class="perc">88%</span>
+          </div>
+          <p>Cryptographic Hashing, Immutable Land Registry (Zamin X), Ledger Architecture.</p>
+          <div class="progress-bar"><div class="fill" style="width: 88%;"></div></div>
+        </div>
+
+        <div class="skill-card glass-card" data-cat="tools">
+          <div class="skill-head">
+            <span class="name">VS Code, Windsurf & Git</span>
+            <span class="perc">92%</span>
+          </div>
+          <p>Version Control, Automated CI/CD Workflows, Modern IDE Prompting, Figma.</p>
+          <div class="progress-bar"><div class="fill" style="width: 92%;"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 04: PROJECTS SHOWCASE WITH MODAL SWAP -->
+    <section class="motion-stage" id="projects-stage">
+      <div class="stage-header">
+        <span class="stage-tag">CHAPTER 03</span>
+        <h2 class="stage-title">Flagship <span class="gradient-text-glow">AI & Blockchain Projects</span></h2>
+      </div>
+
+      <div class="projects-bento-grid">
+        <!-- Project 1 -->
+        <div class="project-card glass-card bento-featured">
+          <div class="badge">FEATURED SYSTEM // BLOCKCHAIN</div>
+          <h3 class="title">Zamin X - Land Ownership & Dispute Resolution</h3>
+          <p class="desc">
+            Immutable digital land registration and ownership transfer system using <strong>Blockchain architecture</strong>, <strong>Streamlit UI</strong>, and <strong>Folium geospatial mapping</strong>. Prevents land fraud, double-selling, and dispute delays.
           </p>
-          <div class="holo-tech-tags">
-            <span>Python</span>
+          <div class="tech-tags">
             <span>Blockchain</span>
+            <span>Python</span>
             <span>Streamlit</span>
             <span>Folium Maps</span>
             <span>JSON Ledger</span>
           </div>
+          <button class="btn-swap-primary btn-modal-trigger" data-title="Zamin X Architecture" data-desc="Developed a secure digital land registration and ownership management system using blockchain technology. Includes land registration, ownership transfer, GST payment tracking, and map-based land visualization to eliminate land disputes and data tampering.">View System Architecture</button>
         </div>
 
-        <!-- Project 2: CopBot -->
-        <div class="holo-card">
-          <div class="card-glow-edge"></div>
-          <div class="holo-card-header">
-            <span class="holo-tag">PROJECT 02 // GENERATIVE AI</span>
-            <span class="holo-status">AI ACTIVE</span>
-          </div>
-          <h2 class="holo-card-title">COPBOT</h2>
-          <h3 class="holo-card-sub">AI FIR & Legal Query System</h3>
-          <p class="holo-card-desc">
-            Automated legal query assistant and public grievance FIR filing platform powered by Generative AI models and prompt engineering pipelines.
+        <!-- Project 2 -->
+        <div class="project-card glass-card">
+          <div class="badge">GENERATIVE AI</div>
+          <h3 class="title">CopBot - AI FIR & Legal Query System</h3>
+          <p class="desc">
+            AI-powered legal query resolution and automated FIR registration system using Generative AI prompt pipelines and web UI.
           </p>
-          <div class="holo-tech-tags">
+          <div class="tech-tags">
             <span>Generative AI</span>
             <span>Prompt Engineering</span>
             <span>JavaScript</span>
             <span>Python</span>
           </div>
+          <button class="btn-swap-primary btn-modal-trigger" data-title="CopBot AI Architecture" data-desc="Built an AI-powered chatbot for legal assistance, public grievance handling, and automated FIR registration using Generative AI and prompt engineering techniques to deliver ultra-fast public support.">View System Architecture</button>
         </div>
 
-        <!-- Project 3: Marine Domain Awareness -->
-        <div class="holo-card">
-          <div class="card-glow-edge"></div>
-          <div class="holo-card-header">
-            <span class="holo-tag">PROJECT 03 // DEEP LEARNING</span>
-            <span class="holo-status">VISION MODEL</span>
-          </div>
-          <h2 class="holo-card-title">MARINE AWARENESS</h2>
-          <h3 class="holo-card-sub">Ship Detection & Movement Tracker</h3>
-          <p class="holo-card-desc">
-            Deep Learning and computer vision solution for detecting vessel movements, maritime tracking, and coastguard security monitoring.
+        <!-- Project 3 -->
+        <div class="project-card glass-card">
+          <div class="badge">COMPUTER VISION</div>
+          <h3 class="title">Marine Domain Awareness System</h3>
+          <p class="desc">
+            Deep Learning ship detection and movement tracking system for maritime surveillance and coastguard coastline security.
           </p>
-          <div class="holo-tech-tags">
+          <div class="tech-tags">
             <span>Deep Learning</span>
             <span>Computer Vision</span>
             <span>OpenCV</span>
             <span>Python</span>
           </div>
+          <button class="btn-swap-primary btn-modal-trigger" data-title="Marine Awareness Architecture" data-desc="Implemented ship detection and movement tracking using Deep Learning and computer vision techniques for maritime surveillance and real-time security.">View System Architecture</button>
         </div>
       </div>
     </section>
 
-    <!-- REAL-TIME INTERNSHIP SYSTEM LOGS -->
-    <section class="cyber-section">
-      <div class="cyber-section-title">
-        <span class="title-bracket">[</span> CAREER & INTERNSHIP EXECUTION LOGS <span class="title-bracket">]</span>
+    <!-- STAGE 05: INTERNSHIPS SWAP -->
+    <section class="motion-stage" id="experience-stage">
+      <div class="stage-header">
+        <span class="stage-tag">CHAPTER 04</span>
+        <h2 class="stage-title">4 Technical <span class="gradient-text-glow">Internships Roadmap</span></h2>
       </div>
 
-      <div class="logs-container">
-        <div class="log-entry">
-          <div class="log-timestamp">[JUN 2026] EXECUTING LOG 04</div>
-          <div class="log-content">
-            <h4>Cloud Computing Intern @ Coriza</h4>
-            <p>Configured cloud infrastructure deployment, serverless function pipelines, scalable database clusters, and cloud security protocols.</p>
-          </div>
+      <div class="internships-grid">
+        <div class="intern-card glass-card">
+          <div class="date">JUN 2026</div>
+          <h3>Cloud Computing Intern</h3>
+          <h4>Coriza</h4>
+          <p>Configured cloud infrastructure deployment, serverless pipelines, database management, and scalable cloud configurations.</p>
         </div>
 
-        <div class="log-entry">
-          <div class="log-timestamp">[JUN 2025 – JUL 2025] EXECUTING LOG 03</div>
-          <div class="log-content">
-            <h4>Generative AI Intern @ CISPRO, Coimbatore</h4>
-            <p>Designed LLM prompt pipelines, automated chatbot workflows, fine-tuned context parsing, and integrated GenAI modules into production apps.</p>
-          </div>
+        <div class="intern-card glass-card">
+          <div class="date">JUN 2025 – JUL 2025</div>
+          <h3>Generative AI Intern</h3>
+          <h4>CISPRO, Coimbatore</h4>
+          <p>Designed LLM prompt pipelines, automated chatbot workflows, fine-tuned context parsing, and integrated GenAI modules.</p>
         </div>
 
-        <div class="log-entry">
-          <div class="log-timestamp">[JAN 2025 – FEB 2025] EXECUTING LOG 02</div>
-          <div class="log-content">
-            <h4>Machine Learning Intern @ Tech World, Coimbatore</h4>
-            <p>Engineered supervised & unsupervised ML models, performed data preprocessing, feature selection, and model accuracy benchmarking.</p>
-          </div>
+        <div class="intern-card glass-card">
+          <div class="date">JAN 2025 – FEB 2025</div>
+          <h3>Machine Learning Intern</h3>
+          <h4>Tech World, Coimbatore</h4>
+          <p>Engineered supervised/unsupervised ML models, dataset processing, feature engineering, and model validation frameworks.</p>
         </div>
 
-        <div class="log-entry">
-          <div class="log-timestamp">[JUN 2024 – JUL 2024] EXECUTING LOG 01</div>
-          <div class="log-content">
-            <h4>Python Developer Intern @ CISPRO, Coimbatore</h4>
-            <p>Constructed modular Python automation scripts, file system parsers, database adapters, and interactive desktop application utilities.</p>
-          </div>
+        <div class="intern-card glass-card">
+          <div class="date">JUN 2024 – JUL 2024</div>
+          <h3>Python Developer Intern</h3>
+          <h4>CISPRO, Coimbatore</h4>
+          <p>Constructed modular Python automation scripts, file system parsers, database adapters, and interactive tool utilities.</p>
         </div>
       </div>
     </section>
 
-    <!-- SYSTEM STATS & ACHIEVEMENTS -->
-    <section class="cyber-section">
-      <div class="cyber-section-title">
-        <span class="title-bracket">[</span> SYSTEM METRICS & ACHIEVEMENTS <span class="title-bracket">]</span>
-      </div>
+    <!-- STAGE 06: CONTACT -->
+    <section class="motion-stage" id="contact-stage">
+      <div class="contact-box glass-card">
+        <div class="stage-tag" style="text-align: center;">CHAPTER 05</div>
+        <h2 class="stage-title" style="text-align: center;">Initiate <span class="gradient-text-glow">Contact</span></h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 40px;">Open for AI/ML engineering roles, internships, and research collaborations.</p>
 
-      <div class="metrics-grid">
-        <div class="metric-box">
-          <div class="metric-value">8.80</div>
-          <div class="metric-label">B.TECH CGPA (ACADEMIC RANK 1)</div>
+        <div class="contact-methods">
+          <div class="method-item">
+            <span class="icon">📧</span>
+            <div>
+              <span class="lbl">Email Address</span>
+              <a href="mailto:Praveenrajapaids23@jkkmct.edu.in" class="val">Praveenrajapaids23@jkkmct.edu.in</a>
+            </div>
+          </div>
+
+          <div class="method-item">
+            <span class="icon">📱</span>
+            <div>
+              <span class="lbl">Phone Number</span>
+              <a href="tel:+917603835392" class="val">+91 7603835392</a>
+            </div>
+          </div>
+
+          <div class="method-item">
+            <span class="icon">📍</span>
+            <div>
+              <span class="lbl">Location</span>
+              <span class="val">Coimbatore, Tamil Nadu, India</span>
+            </div>
+          </div>
         </div>
-        <div class="metric-box">
-          <div class="metric-value">TOP 500</div>
-          <div class="metric-label">NIRAL THIRUVIZHA 3.0 HACKATHON</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-value">WINNER</div>
-          <div class="metric-label">PROJECT EXPO 2025 (STATE LEVEL)</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-value">HEAD</div>
-          <div class="metric-label">INSTITUTION INNOVATION COUNCIL (IIC)</div>
+
+        <div class="contact-actions">
+          <a href="mailto:Praveenrajapaids23@jkkmct.edu.in" class="btn-swap-primary">Send Email Message</a>
+          <a href="https://github.com/praveenraja143" target="_blank" class="btn-swap-glass">GitHub Profile</a>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT COMMAND CONSOLE -->
-    <footer class="cyber-footer">
-      <div class="footer-box">
-        <h3>CONNECT WITH PRAVEENRAJA P</h3>
-        <p>EMAIL: <a href="mailto:Praveenrajapaids23@jkkmct.edu.in" class="neon-cyan">Praveenrajapaids23@jkkmct.edu.in</a> | PHONE: <a href="tel:+917603835392" class="neon-green">+91 7603835392</a></p>
-        <p>GITHUB: <a href="https://github.com/praveenraja143" target="_blank" class="neon-violet">https://github.com/praveenraja143</a></p>
-        <div class="copyright-line">© 2026 PRAVEENRAJA P | CYBERPUNK TERMINAL PORTFOLIO SYSTEM v2.4</div>
-      </div>
-    </footer>
+  </main>
 
+  <!-- Modal Popup -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal-card glass-card">
+      <button id="modal-close-btn" class="modal-close">✕</button>
+      <div class="modal-tag">PROJECT ARCHITECTURE DETAILS</div>
+      <h2 id="modal-title" class="modal-title"></h2>
+      <p id="modal-desc" class="modal-desc"></p>
+    </div>
   </div>
+
+  <footer class="footer">
+    <p>© 2026 Praveenraja P. Designed with Interactive Motion & Button Swap Animations.</p>
+  </footer>
 
   <script src="./app.js"></script>
 </body>
