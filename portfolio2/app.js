@@ -1,73 +1,143 @@
-// Portfolio 2: Button Swap & Motion Design Logic Engine
+// Portfolio 2: Cinematic Motion & Button Swap Engine
 
 document.addEventListener('DOMContentLoaded', () => {
+  initPreloader();
+  initAudioEngine();
   initNavbarSlider();
   initCategorySwapTabs();
   initSkillFilterSwap();
-  initMotionCanvas();
   initCustomCursor();
   initTypewriter();
   initTiltCard();
   initModalSystem();
 });
 
-/* 1. Navbar Button Swap & Slider Motion */
-function initNavbarSlider() {
-  const pillBtns = document.querySelectorAll('.nav-pill-btn');
-  const slider = document.getElementById('nav-slider');
-  const stages = document.querySelectorAll('.motion-stage');
+/* 1. Preloader */
+function initPreloader() {
+  const preloader = document.getElementById('preloader');
+  const fill = document.getElementById('preloader-fill');
+  const status = document.getElementById('preloader-status');
 
-  if (!pillBtns.length || !slider) return;
+  if (!preloader || !fill || !status) return;
+
+  let progress = 0;
+  const timer = setInterval(() => {
+    progress += Math.floor(Math.random() * 15) + 5;
+    if (progress > 100) progress = 100;
+
+    fill.style.width = `${progress}%`;
+    status.textContent = `INITIALIZING SYSTEM... ${progress}%`;
+
+    if (progress === 100) {
+      clearInterval(timer);
+      setTimeout(() => {
+        preloader.classList.add('fade-out');
+      }, 400);
+    }
+  }, 60);
+}
+
+/* 2. Audio Effects */
+let audioActive = true;
+let audioContext = null;
+
+function initAudioEngine() {
+  const btn = document.getElementById('audio-btn');
+  const label = document.getElementById('audio-status');
+
+  if (btn) {
+    btn.addEventListener('click', () => {
+      audioActive = !audioActive;
+      if (label) label.textContent = audioActive ? 'SOUND: ON' : 'SOUND: OFF';
+      if (audioActive) playSound(580, 0.08, 'sine');
+    });
+  }
+
+  const interactive = document.querySelectorAll('button, a, .glass-card');
+  interactive.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      if (audioActive) playSound(440, 0.03, 'triangle');
+    });
+    el.addEventListener('click', () => {
+      if (audioActive) playSound(880, 0.06, 'sine');
+    });
+  });
+}
+
+function playSound(freq, duration, type = 'sine') {
+  try {
+    if (!audioContext) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      audioContext = new AudioCtx();
+    }
+    if (audioContext.state === 'suspended') audioContext.resume();
+
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(freq * 0.5, audioContext.currentTime + duration);
+
+    gain.gain.setValueAtTime(0.04, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+
+    osc.start();
+    osc.stop(audioContext.currentTime + duration);
+  } catch (e) {}
+}
+
+/* 3. Navbar Slider & Button Swap */
+function initNavbarSlider() {
+  const pills = document.querySelectorAll('.nav-pill');
+  const slider = document.getElementById('nav-slider');
+
+  if (!pills.length || !slider) return;
 
   function updateSliderPosition(btn) {
     const parentRect = btn.parentElement.getBoundingClientRect();
     const btnRect = btn.getBoundingClientRect();
-
-    const left = btnRect.left - parentRect.left;
-    const width = btnRect.width;
-
-    slider.style.left = `${left}px`;
-    slider.style.width = `${width}px`;
+    slider.style.left = `${btnRect.left - parentRect.left}px`;
+    slider.style.width = `${btnRect.width}px`;
   }
 
-  // Set initial slider position on active button
-  const initialActive = document.querySelector('.nav-pill-btn.active');
-  if (initialActive) updateSliderPosition(initialActive);
+  const activePill = document.querySelector('.nav-pill.active');
+  if (activePill) updateSliderPosition(activePill);
 
-  pillBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      pillBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      updateSliderPosition(btn);
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      updateSliderPosition(pill);
 
-      const targetId = btn.getAttribute('data-target');
-      switchStage(targetId);
+      const targetId = pill.getAttribute('data-target');
+      switchScene(targetId);
     });
   });
 
   window.addEventListener('resize', () => {
-    const currentActive = document.querySelector('.nav-pill-btn.active');
-    if (currentActive) updateSliderPosition(currentActive);
+    const current = document.querySelector('.nav-pill.active');
+    if (current) updateSliderPosition(current);
   });
 }
 
-function switchStage(targetId) {
-  const stages = document.querySelectorAll('.motion-stage');
-  stages.forEach(s => {
-    s.classList.remove('active');
-  });
+window.switchScene = function(targetId) {
+  const stages = document.querySelectorAll('.scene-stage');
+  stages.forEach(s => s.classList.remove('active'));
 
-  const targetStage = document.getElementById(targetId);
-  if (targetStage) {
-    targetStage.classList.add('active');
+  const target = document.getElementById(targetId);
+  if (target) {
+    target.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Also update navbar active state if triggered from hero button
-  const matchingPill = document.querySelector(`.nav-pill-btn[data-target="${targetId}"]`);
+  const matchingPill = document.querySelector(`.nav-pill[data-target="${targetId}"]`);
   if (matchingPill) {
-    const pillBtns = document.querySelectorAll('.nav-pill-btn');
-    pillBtns.forEach(b => b.classList.remove('active'));
+    const pills = document.querySelectorAll('.nav-pill');
+    pills.forEach(p => p.classList.remove('active'));
     matchingPill.classList.add('active');
 
     const slider = document.getElementById('nav-slider');
@@ -78,9 +148,9 @@ function switchStage(targetId) {
       slider.style.width = `${btnRect.width}px`;
     }
   }
-}
+};
 
-/* 2. Category Tab Button Swap (Story Chapter) */
+/* 4. Category Tab Panel Swap */
 function initCategorySwapTabs() {
   const swapBtns = document.querySelectorAll('.swap-btn');
   const panels = document.querySelectorAll('.swap-panel');
@@ -90,22 +160,19 @@ function initCategorySwapTabs() {
       swapBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      const targetTab = btn.getAttribute('data-tab');
-
-      panels.forEach(panel => {
-        panel.classList.remove('active');
-        if (panel.id === `panel-${targetTab}`) {
-          panel.classList.add('active');
-        }
+      const tab = btn.getAttribute('data-tab');
+      panels.forEach(p => {
+        p.classList.remove('active');
+        if (p.id === `panel-${tab}`) p.classList.add('active');
       });
     });
   });
 }
 
-/* 3. Skills Category Filter Swap */
+/* 5. Skill Matrix Filter */
 function initSkillFilterSwap() {
-  const filterBtns = document.querySelectorAll('.skill-filter-btn');
-  const cards = document.querySelectorAll('.skill-card');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.matrix-card');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -113,116 +180,41 @@ function initSkillFilterSwap() {
       btn.classList.add('active');
 
       const cat = btn.getAttribute('data-filter');
-
-      cards.forEach(card => {
-        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
-          card.style.display = 'block';
+      cards.forEach(c => {
+        if (cat === 'all' || c.getAttribute('data-cat') === cat) {
+          c.style.display = 'block';
         } else {
-          card.style.display = 'none';
+          c.style.display = 'none';
         }
       });
     });
   });
 }
 
-/* 4. Motion Particle Canvas */
-function initMotionCanvas() {
-  const canvas = document.getElementById('motion-canvas');
-  if (!canvas) return;
-
-  const ctx = canvas.getContext('2d');
-  let width = canvas.width = window.innerWidth;
-  let height = canvas.height = window.innerHeight;
-
-  window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  });
-
-  const particles = [];
-  const particleCount = Math.min(Math.floor(width / 15), 65);
-
-  for (let i = 0; i < particleCount; i++) {
-    particles.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.6,
-      vy: (Math.random() - 0.5) * 0.6,
-      radius: Math.random() * 2 + 1,
-      color: Math.random() > 0.5 ? 'rgba(0, 242, 254, ' : 'rgba(121, 40, 202, ',
-      alpha: Math.random() * 0.5 + 0.2
-    });
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if (p.x < 0) p.x = width;
-      if (p.x > width) p.x = 0;
-      if (p.y < 0) p.y = height;
-      if (p.y > height) p.y = 0;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = p.color + p.alpha + ')';
-      ctx.fill();
-
-      for (let j = i + 1; j < particles.length; j++) {
-        const p2 = particles[j];
-        const dx = p.x - p2.x;
-        const dy = p.y - p2.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < 120) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(0, 242, 254, ${0.12 * (1 - dist / 120)})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      }
-    }
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-}
-
-/* 5. Custom Follower Cursor */
+/* 6. Custom Cursor */
 function initCustomCursor() {
   const dot = document.getElementById('cursor-dot');
   const ring = document.getElementById('cursor-ring');
 
   if (!dot || !ring) return;
 
-  let rx = 0, ry = 0;
-  let mx = 0, my = 0;
+  let rx = 0, ry = 0, mx = 0, my = 0;
 
   window.addEventListener('mousemove', (e) => {
-    mx = e.clientX;
-    my = e.clientY;
-    dot.style.left = `${mx}px`;
-    dot.style.top = `${my}px`;
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = `${mx}px`; dot.style.top = `${my}px`;
   });
 
   function renderRing() {
     rx += (mx - rx) * 0.15;
     ry += (my - ry) * 0.15;
-    ring.style.left = `${rx}px`;
-    ring.style.top = `${ry}px`;
+    ring.style.left = `${rx}px`; ring.style.top = `${ry}px`;
     requestAnimationFrame(renderRing);
   }
   renderRing();
 }
 
-/* 6. Typewriter Effect */
+/* 7. Typewriter */
 function initTypewriter() {
   const target = document.getElementById('typewriter');
   if (!target) return;
@@ -234,13 +226,10 @@ function initTypewriter() {
     "Blockchain Land Registry Builder"
   ];
 
-  let phraseIdx = 0;
-  let charIdx = 0;
-  let isDeleting = false;
+  let phraseIdx = 0, charIdx = 0, isDeleting = false;
 
   function type() {
     const current = phrases[phraseIdx];
-
     if (isDeleting) {
       target.textContent = current.substring(0, charIdx - 1);
       charIdx--;
@@ -250,7 +239,6 @@ function initTypewriter() {
     }
 
     let speed = isDeleting ? 40 : 80;
-
     if (!isDeleting && charIdx === current.length) {
       speed = 2200;
       isDeleting = true;
@@ -259,16 +247,14 @@ function initTypewriter() {
       phraseIdx = (phraseIdx + 1) % phrases.length;
       speed = 400;
     }
-
     setTimeout(type, speed);
   }
-
   type();
 }
 
-/* 7. 3D Tilt Card */
+/* 8. 3D Tilt Card */
 function initTiltCard() {
-  const card = document.getElementById('tilt-card');
+  const card = document.getElementById('holo-card');
   if (!card) return;
 
   card.addEventListener('mousemove', (e) => {
@@ -276,8 +262,8 @@ function initTiltCard() {
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
 
-    const rotX = (y / (rect.height / 2)) * -12;
-    const rotY = (x / (rect.width / 2)) * 12;
+    const rotX = (y / (rect.height / 2)) * -14;
+    const rotY = (x / (rect.width / 2)) * 14;
 
     card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
   });
@@ -287,7 +273,7 @@ function initTiltCard() {
   });
 }
 
-/* 8. Project Detail Modal System */
+/* 9. Modal System */
 function initModalSystem() {
   const overlay = document.getElementById('modal-overlay');
   const titleElem = document.getElementById('modal-title');
@@ -299,20 +285,13 @@ function initModalSystem() {
   const triggers = document.querySelectorAll('.btn-modal-trigger');
   triggers.forEach(t => {
     t.addEventListener('click', () => {
-      const title = t.getAttribute('data-title');
-      const desc = t.getAttribute('data-desc');
-
-      titleElem.textContent = title;
-      descElem.textContent = desc;
-
+      titleElem.textContent = t.getAttribute('data-title');
+      descElem.textContent = t.getAttribute('data-desc');
       overlay.classList.add('active');
     });
   });
 
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
-  }
-
+  if (closeBtn) closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) overlay.classList.remove('active');
   });

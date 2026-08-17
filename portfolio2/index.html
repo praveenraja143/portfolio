@@ -3,540 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Praveenraja P | Cinematic Motion & Button Swap Portfolio</title>
-  <meta name="description" content="Cinematic Developer Portfolio with interactive button swap animations and motion storytelling. Portfolio of Praveenraja P - B.Tech AI & Data Science Engineer.">
+  <title>Praveenraja P | Cinematic Motion & Walk Experience Portfolio</title>
+  <meta name="description" content="A cinematic developer portfolio where code meets storytelling and motion. Interactive experience of Praveenraja P - B.Tech AI & Data Science Engineer.">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <style>
-    /* Portfolio 2: Guaranteed Embedded Cinematic Styling */
-    :root {
-      --bg-dark: #050814;
-      --bg-card: rgba(12, 19, 36, 0.85);
-      --border-glass: rgba(255, 255, 255, 0.12);
-      --border-cyan: rgba(0, 242, 254, 0.4);
-      
-      --cyan-glow: #00f2fe;
-      --blue-glow: #4facfe;
-      --violet-glow: #7928ca;
-      --gold-glow: #f59e0b;
-      
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      
-      --font-heading: 'Outfit', sans-serif;
-      --font-body: 'Plus Jakarta Sans', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      
-      --transition-swap: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  <link rel="stylesheet" href="./styles.css">
+
+  <!-- ES Module Import Map for Three.js (Required for WebGL 3D Background) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html, body {
-      scroll-behavior: smooth;
-      font-family: var(--font-body);
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    /* Motion Canvas Background */
-    #motion-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* Ambient Glow Spheres */
-    .glow-sphere {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(140px);
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.35;
-      animation: pulseGlow 10s infinite alternate ease-in-out;
-    }
-
-    .glow-1 { top: -10%; left: 20%; width: 500px; height: 500px; background: var(--cyan-glow); }
-    .glow-2 { top: 40%; right: -10%; width: 550px; height: 550px; background: var(--violet-glow); }
-    .glow-3 { bottom: -10%; left: 10%; width: 450px; height: 450px; background: var(--blue-glow); }
-
-    @keyframes pulseGlow {
-      0% { transform: scale(1) translate(0, 0); }
-      100% { transform: scale(1.15) translate(30px, -20px); }
-    }
-
-    /* Grain Overlay */
-    .grain-layer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
-      background-size: 24px 24px;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* Custom Cursor */
-    .cursor-dot {
-      width: 8px; height: 8px;
-      background: var(--cyan-glow);
-      border-radius: 50%;
-      position: fixed; top: 0; left: 0;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 12px var(--cyan-glow);
-    }
-
-    .cursor-ring {
-      width: 38px; height: 38px;
-      border: 1.5px solid rgba(0, 242, 254, 0.4);
-      border-radius: 50%;
-      position: fixed; top: 0; left: 0;
-      pointer-events: none; z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: width 0.2s, height 0.2s, border-color 0.2s;
-    }
-
-    /* Glass Card Utility */
-    .glass-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid var(--border-glass);
-      border-radius: 20px;
-      position: relative;
-      z-index: 2;
-      transition: var(--transition-swap);
-    }
-
-    .glass-card:hover {
-      border-color: var(--border-cyan);
-      box-shadow: 0 16px 40px rgba(0, 242, 254, 0.15);
-      transform: translateY(-4px);
-    }
-
-    /* Typography */
-    h1, h2, h3, h4 { font-family: var(--font-heading); }
-
-    .gradient-text-glow {
-      background: linear-gradient(135deg, var(--cyan-glow), var(--blue-glow), var(--violet-glow));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Floating Navbar */
-    .navbar-wrapper {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 92%;
-      max-width: 1240px;
-      z-index: 1000;
-    }
-
-    .navbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 24px;
-      border-radius: 50px;
-    }
-
-    .nav-brand {
-      text-decoration: none;
-      color: #fff;
-      font-family: var(--font-heading);
-      font-weight: 800;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .brand-badge {
-      font-size: 0.65rem;
-      font-family: var(--font-mono);
-      padding: 2px 8px;
-      background: rgba(0, 242, 254, 0.15);
-      color: var(--cyan-glow);
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      border-radius: 12px;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 20px;
-    }
-
-    .nav-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.88rem;
-      font-weight: 500;
-      transition: var(--transition-swap);
-    }
-
-    .nav-link:hover, .nav-link.active {
-      color: var(--cyan-glow);
-      text-shadow: 0 0 10px var(--cyan-glow);
-    }
-
-    .btn-glow-accent {
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 700;
-      padding: 8px 20px;
-      background: linear-gradient(135deg, var(--cyan-glow), var(--blue-glow));
-      color: #040810;
-      border-radius: 30px;
-      box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
-      transition: var(--transition-swap);
-    }
-
-    .btn-glow-accent:hover {
-      box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
-      transform: scale(1.04);
-    }
-
-    /* CONTAINER & SECTIONS */
-    .content-container {
-      position: relative;
-      z-index: 2;
-      padding: 140px 0 80px;
-      width: 90%;
-      max-width: 1240px;
-      margin: 0 auto;
-    }
-
-    .section-block {
-      padding: 80px 0;
-    }
-
-    /* HERO */
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 50px;
-      align-items: center;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
-      background: rgba(0, 242, 254, 0.1);
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      border-radius: 30px;
-      font-size: 0.75rem;
-      font-family: var(--font-mono);
-      color: var(--cyan-glow);
-      margin-bottom: 20px;
-    }
-
-    .pulse-dot {
-      width: 8px; height: 8px;
-      background: var(--cyan-glow);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--cyan-glow);
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .hero-headline {
-      font-size: 3.6rem;
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 16px;
-    }
-
-    .typewriter-box {
-      font-family: var(--font-mono);
-      font-size: 1.3rem;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    .typewriter-text { color: var(--cyan-glow); font-weight: 700; }
-    .typewriter-cursor { color: var(--cyan-glow); animation: pulse 0.8s infinite; }
-
-    .hero-bio {
-      font-size: 1.08rem;
-      line-height: 1.7;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin-bottom: 36px;
-    }
-
-    .hero-action-buttons {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 40px;
-    }
-
-    .btn-swap-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 32px;
-      background: linear-gradient(135deg, var(--cyan-glow), var(--blue-glow));
-      color: #040810;
-      font-weight: 700;
-      font-size: 0.95rem;
-      border-radius: 40px;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
-      transition: var(--transition-swap);
-    }
-
-    .btn-swap-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 40px rgba(0, 242, 254, 0.7);
-    }
-
-    .btn-swap-glass {
-      display: inline-flex;
-      align-items: center;
-      padding: 14px 28px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-glass);
-      color: var(--text-main);
-      font-weight: 600;
-      font-size: 0.95rem;
-      border-radius: 40px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: var(--transition-swap);
-    }
-
-    .btn-swap-glass:hover {
-      border-color: var(--cyan-glow);
-      color: var(--cyan-glow);
-      transform: translateY(-3px);
-    }
-
-    .stats-ribbon {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .stat-pill .val { display: block; font-size: 1.6rem; font-weight: 800; color: var(--cyan-glow); }
-    .stat-pill .lbl { font-size: 0.75rem; color: var(--text-dim); }
-
-    /* 3D TILT CARD */
-    .tilt-card-wrapper { perspective: 1000px; }
-    .tilt-card { padding: 24px; text-align: center; }
-
-    .card-image-box {
-      position: relative;
-      width: 220px; height: 250px;
-      margin: 0 auto 20px;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border-cyan);
-    }
-
-    .profile-img { width: 100%; height: 100%; object-fit: cover; }
-
-    .card-info .name { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
-    .card-info .role { color: var(--cyan-glow); font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 8px; }
-    .card-info .loc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px; }
-
-    .card-info .tags { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
-    .card-info .tags span { font-size: 0.72rem; padding: 4px 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); border-radius: 12px; color: var(--text-muted); }
-
-    /* STAGE HEADERS */
-    .stage-header { text-align: center; max-width: 700px; margin: 0 auto 40px; }
-    .stage-tag { font-family: var(--font-mono); font-size: 0.8rem; color: var(--cyan-glow); letter-spacing: 0.15em; display: block; margin-bottom: 8px; }
-    .stage-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 12px; }
-    .stage-subtitle { color: var(--text-muted); font-size: 1rem; }
-
-    /* CATEGORY BUTTON SWAP BAR */
-    .swap-button-bar { display: flex; justify-content: center; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
-
-    .swap-btn, .skill-filter-btn {
-      padding: 10px 24px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-glass);
-      color: var(--text-muted);
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-family: var(--font-body);
-      transition: var(--transition-swap);
-    }
-
-    .swap-btn.active, .swap-btn:hover, .skill-filter-btn.active, .skill-filter-btn:hover {
-      background: rgba(0, 242, 254, 0.15);
-      border-color: var(--cyan-glow);
-      color: var(--cyan-glow);
-      box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
-    }
-
-    /* SWAPPABLE PANELS */
-    .swappable-content-box { position: relative; max-width: 800px; margin: 0 auto; }
-
-    .swap-panel {
-      display: none;
-      opacity: 0;
-      transform: scale(0.95);
-      transition: opacity 0.35s ease, transform 0.35s ease;
-    }
-
-    .swap-panel.active {
-      display: block;
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .panel-card { padding: 40px; text-align: center; }
-    .panel-icon { font-size: 2.8rem; margin-bottom: 16px; }
-    .panel-card h3 { font-size: 1.5rem; margin-bottom: 14px; }
-    .panel-card p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; }
-
-    /* SKILLS MATRIX */
-    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .skill-card { padding: 24px; }
-    .skill-head { display: flex; justify-content: space-between; margin-bottom: 8px; }
-    .skill-head .name { font-weight: 700; font-size: 1.05rem; }
-    .skill-head .perc { font-family: var(--font-mono); font-size: 0.8rem; color: var(--cyan-glow); }
-    .skill-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; }
-
-    .progress-bar { height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 10px; overflow: hidden; }
-    .fill { height: 100%; background: linear-gradient(90deg, var(--cyan-glow), var(--violet-glow)); border-radius: 10px; }
-
-    /* PROJECTS BENTO */
-    .projects-bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-    .project-card { padding: 36px; display: flex; flex-direction: column; justify-content: space-between; }
-    .bento-featured { grid-column: span 2; }
-    .project-card .badge { font-family: var(--font-mono); font-size: 0.72rem; color: var(--cyan-glow); margin-bottom: 10px; }
-    .project-card .title { font-size: 1.6rem; margin-bottom: 12px; }
-    .project-card .desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; }
-
-    .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
-    .tech-tags span { font-family: var(--font-mono); font-size: 0.75rem; padding: 4px 12px; background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.2); color: var(--cyan-glow); border-radius: 20px; }
-
-    /* INTERNSHIPS GRID */
-    .internships-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-    .intern-card { padding: 32px; }
-    .intern-card .date { font-family: var(--font-mono); font-size: 0.78rem; color: var(--cyan-glow); margin-bottom: 8px; }
-    .intern-card h3 { font-size: 1.3rem; margin-bottom: 4px; }
-    .intern-card h4 { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 12px; }
-    .intern-card p { color: var(--text-dim); font-size: 0.92rem; line-height: 1.6; }
-
-    /* CONTACT BOX */
-    .contact-box { padding: 60px; max-width: 850px; margin: 0 auto; }
-    .contact-methods { display: flex; justify-content: center; gap: 36px; margin-bottom: 40px; flex-wrap: wrap; }
-    .method-item { display: flex; align-items: center; gap: 12px; }
-    .method-item .icon { font-size: 1.8rem; }
-    .method-item .lbl { display: block; font-size: 0.75rem; color: var(--text-dim); }
-    .method-item .val { font-size: 0.95rem; font-weight: 600; color: #fff; text-decoration: none; }
-    .contact-actions { display: flex; justify-content: center; gap: 16px; }
-
-    /* MODAL OVERLAY */
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(5, 8, 20, 0.85); backdrop-filter: blur(14px);
-      z-index: 10000; display: flex; justify-content: center; align-items: center;
-      opacity: 0; pointer-events: none; transition: var(--transition-swap);
-    }
-    .modal-overlay.active { opacity: 1; pointer-events: auto; }
-    .modal-card { width: 90%; max-width: 600px; padding: 40px; position: relative; }
-    .modal-close { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: var(--text-muted); font-size: 1.4rem; cursor: pointer; }
-    .modal-tag { font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan-glow); margin-bottom: 8px; }
-    .modal-title { font-size: 1.8rem; margin-bottom: 14px; }
-    .modal-desc { color: var(--text-muted); font-size: 1rem; line-height: 1.7; }
-
-    /* FOOTER */
-    .footer { text-align: center; padding: 30px; border-top: 1px solid rgba(255, 255, 255, 0.08); color: var(--text-dim); font-size: 0.85rem; }
-
-    /* RESPONSIVE */
-    @media (max-width: 992px) {
-      .hero-grid { grid-template-columns: 1fr; text-align: center; }
-      .typewriter-box, .hero-action-buttons, .contact-actions { justify-content: center; }
-      .bento-featured { grid-column: span 1; }
-      .skills-grid, .projects-bento-grid, .internships-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-    }
-  </style>
+  }
+  </script>
 </head>
 <body>
 
-  <!-- Motion Canvas Background -->
-  <canvas id="motion-canvas"></canvas>
+  <!-- Preloader Screen -->
+  <div id="preloader" class="preloader">
+    <div class="preloader-box">
+      <div class="preloader-logo">PRAVEENRAJA P</div>
+      <div class="preloader-subtitle">CINEMATIC MOTION & STORYTELLING EXPERIENCE</div>
+      <div class="preloader-track"><div id="preloader-fill" class="preloader-fill"></div></div>
+      <div id="preloader-status" class="preloader-status">INITIALIZING SYSTEM... 0%</div>
+    </div>
+  </div>
 
-  <!-- Ambient Volumetric Lights -->
-  <div class="glow-sphere glow-1"></div>
-  <div class="glow-sphere glow-2"></div>
-  <div class="glow-sphere glow-3"></div>
+  <!-- WebGL 3D Canvas Background -->
+  <canvas id="webgl-bg"></canvas>
 
-  <!-- Grain Overlay -->
-  <div class="grain-layer"></div>
+  <!-- Grain Texture Overlay -->
+  <div class="grain-overlay"></div>
 
   <!-- Custom Cursor -->
   <div id="cursor-dot" class="cursor-dot"></div>
   <div id="cursor-ring" class="cursor-ring"></div>
 
-  <!-- Floating Header Navigation -->
+  <!-- Audio Effects Controller -->
+  <button id="audio-btn" class="audio-controller" title="Toggle Cinematic Sound">
+    <span class="sound-icon">🔊</span>
+    <span id="audio-status">SOUND: ON</span>
+  </button>
+
+  <!-- Navigation Bar with Pill Slider -->
   <header class="navbar-wrapper">
     <nav class="navbar glass-card">
       <a href="../index.html" class="nav-brand">
-        PRAVEENRAJA <span class="brand-badge">BUTTON SWAP v2</span>
+        PRAVEENRAJA <span class="brand-badge">CINEMATIC v2</span>
       </a>
 
-      <ul class="nav-links">
-        <li><a href="#hero-section" class="nav-link active">Home</a></li>
-        <li><a href="#about-section" class="nav-link">Story</a></li>
-        <li><a href="#skills-section" class="nav-link">Skills</a></li>
-        <li><a href="#projects-section" class="nav-link">Projects</a></li>
-        <li><a href="#experience-section" class="nav-link">Internships</a></li>
-        <li><a href="#contact-section" class="nav-link">Contact</a></li>
-      </ul>
+      <div class="nav-pills-container">
+        <div class="nav-active-slider" id="nav-slider"></div>
+        <button class="nav-pill active" data-target="hero-scene">Hero</button>
+        <button class="nav-pill" data-target="story-scene">Story</button>
+        <button class="nav-pill" data-target="matrix-scene">Matrix</button>
+        <button class="nav-pill" data-target="projects-scene">Projects</button>
+        <button class="nav-pill" data-target="experience-scene">Logs</button>
+        <button class="nav-pill" data-target="contact-scene">Contact</button>
+      </div>
 
-      <a href="#contact-section" class="btn-glow-accent">Get In Touch</a>
+      <a href="#contact-scene" class="btn-glow-cyan">Initiate Contact</a>
     </nav>
   </header>
 
-  <main class="content-container">
+  <!-- MAIN SCENE CONTAINER -->
+  <main class="cinematic-main">
 
-    <!-- HERO SECTION -->
-    <section class="section-block" id="hero-section">
+    <!-- HERO SCENE -->
+    <section class="scene-stage active" id="hero-scene">
       <div class="hero-grid">
         <div class="hero-left">
-          <div class="hero-badge">
+          <div class="scene-badge">
             <span class="pulse-dot"></span>
-            CINEMATIC DEVELOPER PORTFOLIO
+            CINEMATIC DEVELOPER SHOWCASE
           </div>
 
           <h1 class="hero-headline">
             WHERE CODE MEETS <br>
-            <span class="gradient-text-glow">STORYTELLING & MOTION</span>
+            <span class="gradient-gold">STORYTELLING & MOTION</span>
           </h1>
 
           <div class="typewriter-box">
@@ -545,51 +95,51 @@
             <span class="typewriter-cursor">|</span>
           </div>
 
-          <p class="hero-bio">
-            B.Tech AI & Data Science Engineer (8.80 CGPA Rank 1). Crafting high-impact Generative AI applications, Deep Learning computer vision models, and immutable Blockchain land registries.
+          <p class="hero-desc">
+            B.Tech AI & Data Science Engineer (**8.80 CGPA Rank 1**). Architecting Generative AI applications, Deep Learning computer vision models, and immutable Blockchain land registries.
           </p>
 
-          <div class="hero-action-buttons">
-            <a href="#projects-section" class="btn-swap-primary">
-              <span>View Flagship Projects</span>
+          <div class="hero-actions">
+            <button class="btn-cinematic-primary" onclick="switchScene('projects-scene')">
+              <span>Explore Flagship Projects</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-            <a href="#about-section" class="btn-swap-glass">
-              <span>Explore Story & Journey</span>
-            </a>
+            </button>
+            <button class="btn-cinematic-ghost" onclick="switchScene('story-scene')">
+              <span>Begin Story Journey ↓</span>
+            </button>
           </div>
 
-          <!-- Highlight Stat Pills -->
-          <div class="stats-ribbon">
-            <div class="stat-pill">
-              <span class="val">8.80</span>
+          <div class="stats-banner">
+            <div class="stat-box">
+              <span class="num">8.80</span>
               <span class="lbl">B.Tech CGPA</span>
             </div>
-            <div class="stat-pill">
-              <span class="val">04</span>
+            <div class="stat-box">
+              <span class="num">04</span>
               <span class="lbl">Tech Internships</span>
             </div>
-            <div class="stat-pill">
-              <span class="val">15+</span>
+            <div class="stat-box">
+              <span class="num">15+</span>
               <span class="lbl">Symposium Papers</span>
             </div>
-            <div class="stat-pill">
-              <span class="val">Top 500</span>
+            <div class="stat-box">
+              <span class="num">TOP 500</span>
               <span class="lbl">Niral Thiruvizha 3.0</span>
             </div>
           </div>
         </div>
 
-        <!-- 3D Card Tilt Profile Frame -->
+        <!-- 3D Hologram Frame -->
         <div class="hero-right">
-          <div class="tilt-card-wrapper" id="tilt-card">
-            <div class="tilt-card glass-card">
-              <div class="card-image-box">
+          <div class="holo-wrapper" id="holo-card">
+            <div class="holo-card glass-card">
+              <div class="holo-img-box">
                 <img src="../praveenraja.jpg" alt="Praveenraja P" class="profile-img">
+                <div class="scan-beam"></div>
               </div>
-              <div class="card-info">
+              <div class="holo-info">
                 <h3 class="name">PRAVEENRAJA P</h3>
-                <p class="role">AI & Data Science Architect</p>
+                <p class="title">AI & Data Science Architect</p>
                 <div class="loc">📍 Coimbatore, Tamil Nadu</div>
                 <div class="tags">
                   <span>Generative AI</span>
@@ -603,29 +153,27 @@
       </div>
     </section>
 
-    <!-- ABOUT & INTERACTIVE BUTTON SWAP SECTION -->
-    <section class="section-block" id="about-section">
-      <div class="stage-header">
-        <span class="stage-tag">CHAPTER 01</span>
-        <h2 class="stage-title">The <span class="gradient-text-glow">Architect's Journey</span></h2>
-        <p class="stage-subtitle">Click the category buttons below to swap panels instantly!</p>
+    <!-- STORY SCENE WITH BUTTON SWAP -->
+    <section class="scene-stage" id="story-scene">
+      <div class="scene-header">
+        <span class="scene-tag">CHAPTER 01</span>
+        <h2 class="scene-title">The <span class="gradient-cyan">Architect's Journey</span></h2>
+        <p class="scene-subtitle">Click the category buttons below to swap between story chapters.</p>
       </div>
 
-      <!-- Button Swap Category Selector -->
-      <div class="swap-button-bar">
+      <div class="button-swap-bar">
         <button class="swap-btn active" data-tab="academic">Academic Rank 1</button>
         <button class="swap-btn" data-tab="ai-skills">Generative AI & Prototyping</button>
-        <button class="swap-btn" data-tab="blockchain">Blockchain Innovation</button>
+        <button class="swap-btn" data-tab="blockchain">Blockchain Systems</button>
         <button class="swap-btn" data-tab="leadership">Student Leadership</button>
       </div>
 
-      <!-- Swappable Card Content Display -->
-      <div class="swappable-content-box">
+      <div class="swap-panels-wrapper">
         <div class="swap-panel active" id="panel-academic">
           <div class="panel-card glass-card">
             <div class="panel-icon">🎓</div>
             <h3>B.Tech AI & Data Science (8.80 CGPA)</h3>
-            <p>Studying at JKKM College of Technology (2023 - 2027). Awarded <strong>Class Topper 2025</strong> for outstanding academic score and technical proficiency in core Data Structures, Algorithms, Python, and Machine Learning.</p>
+            <p>Studying at JKKM College of Technology (2023 - 2027). Awarded <strong>Class Topper 2025</strong> for rank 1 academic score, Data Structures, Algorithms, Python, and Machine Learning.</p>
           </div>
         </div>
 
@@ -633,7 +181,7 @@
           <div class="panel-card glass-card">
             <div class="panel-icon">⚡</div>
             <h3>Generative AI & Rapid Prototyping</h3>
-            <p>Specialized in LLM Prompt Engineering, custom AI agent workflows, automated code debugging, and Streamlit user interfaces. Built AI assistant platforms like <strong>CopBot</strong> for instant legal query resolution.</p>
+            <p>Specialized in LLM Prompt Engineering, custom AI agents, automated code debugging, and Streamlit user interfaces. Developed platforms like <strong>CopBot</strong> for legal assistance.</p>
           </div>
         </div>
 
@@ -641,7 +189,7 @@
           <div class="panel-card glass-card">
             <div class="panel-icon">🌐</div>
             <h3>Immutable Blockchain Systems</h3>
-            <p>Architect of <strong>Zamin X</strong>, a tamper-proof digital land registration and dispute resolution system utilizing cryptographic hashing, Streamlit UI, and Folium geospatial mapping to stop land fraud.</p>
+            <p>Architect of <strong>Zamin X</strong>, a tamper-proof digital land registration and dispute resolution platform using cryptographic hashing, Streamlit UI, and Folium geospatial mapping to eliminate land fraud.</p>
           </div>
         </div>
 
@@ -655,24 +203,24 @@
       </div>
     </section>
 
-    <!-- SKILLS MATRIX & FILTER BUTTON SWAP SECTION -->
-    <section class="section-block" id="skills-section">
-      <div class="stage-header">
-        <span class="stage-tag">CHAPTER 02</span>
-        <h2 class="stage-title">Neural <span class="gradient-text-glow">Skill Matrix</span></h2>
-        <p class="stage-subtitle">Filter skills by clicking the category buttons.</p>
+    <!-- NEURAL MATRIX SCENE -->
+    <section class="scene-stage" id="matrix-scene">
+      <div class="scene-header">
+        <span class="scene-tag">CHAPTER 02</span>
+        <h2 class="scene-title">Neural <span class="gradient-gold">Skill Matrix</span></h2>
+        <p class="scene-subtitle">Filter competencies using the category buttons below.</p>
       </div>
 
-      <div class="swap-button-bar">
-        <button class="skill-filter-btn active" data-filter="all">All Skills</button>
-        <button class="skill-filter-btn" data-filter="ai">AI & ML</button>
-        <button class="skill-filter-btn" data-filter="code">Programming & DSA</button>
-        <button class="skill-filter-btn" data-filter="tools">Tools & Platforms</button>
+      <div class="button-swap-bar">
+        <button class="filter-btn active" data-filter="all">All Skills</button>
+        <button class="filter-btn" data-filter="ai">AI & ML</button>
+        <button class="filter-btn" data-filter="code">Programming & DSA</button>
+        <button class="filter-btn" data-filter="tools">Tools & Platforms</button>
       </div>
 
-      <div class="skills-grid" id="skills-grid">
-        <div class="skill-card glass-card" data-cat="ai">
-          <div class="skill-head">
+      <div class="matrix-grid">
+        <div class="matrix-card glass-card" data-cat="ai">
+          <div class="matrix-head">
             <span class="name">Generative AI & LLMs</span>
             <span class="perc">95%</span>
           </div>
@@ -680,8 +228,8 @@
           <div class="progress-bar"><div class="fill" style="width: 95%;"></div></div>
         </div>
 
-        <div class="skill-card glass-card" data-cat="ai">
-          <div class="skill-head">
+        <div class="matrix-card glass-card" data-cat="ai">
+          <div class="matrix-head">
             <span class="name">Machine Learning & DL</span>
             <span class="perc">90%</span>
           </div>
@@ -689,26 +237,26 @@
           <div class="progress-bar"><div class="fill" style="width: 90%;"></div></div>
         </div>
 
-        <div class="skill-card glass-card" data-cat="code">
-          <div class="skill-head">
+        <div class="matrix-card glass-card" data-cat="code">
+          <div class="matrix-head">
             <span class="name">Python Development</span>
             <span class="perc">96%</span>
           </div>
-          <p>NumPy, Pandas, Scikit-Learn, Streamlit, Folium, Automation Scripts.</p>
+          <p>NumPy, Pandas, Scikit-Learn, Streamlit, Folium, System Scripting.</p>
           <div class="progress-bar"><div class="fill" style="width: 96%;"></div></div>
         </div>
 
-        <div class="skill-card glass-card" data-cat="code">
-          <div class="skill-head">
+        <div class="matrix-card glass-card" data-cat="code">
+          <div class="matrix-head">
             <span class="name">Java & Data Structures</span>
             <span class="perc">85%</span>
           </div>
-          <p>Object-Oriented Programming, Arrays, Trees, Graphs, Sorting & Optimization.</p>
+          <p>Object-Oriented Programming, Arrays, Trees, Graphs, Optimization.</p>
           <div class="progress-bar"><div class="fill" style="width: 85%;"></div></div>
         </div>
 
-        <div class="skill-card glass-card" data-cat="ai">
-          <div class="skill-head">
+        <div class="matrix-card glass-card" data-cat="ai">
+          <div class="matrix-head">
             <span class="name">Blockchain & Smart Contracts</span>
             <span class="perc">88%</span>
           </div>
@@ -716,8 +264,8 @@
           <div class="progress-bar"><div class="fill" style="width: 88%;"></div></div>
         </div>
 
-        <div class="skill-card glass-card" data-cat="tools">
-          <div class="skill-head">
+        <div class="matrix-card glass-card" data-cat="tools">
+          <div class="matrix-head">
             <span class="name">VS Code, Windsurf & Git</span>
             <span class="perc">92%</span>
           </div>
@@ -727,70 +275,67 @@
       </div>
     </section>
 
-    <!-- PROJECTS SHOWCASE SECTION -->
-    <section class="section-block" id="projects-section">
-      <div class="stage-header">
-        <span class="stage-tag">CHAPTER 03</span>
-        <h2 class="stage-title">Flagship <span class="gradient-text-glow">AI & Blockchain Projects</span></h2>
+    <!-- PROJECTS SHOWCASE SCENE -->
+    <section class="scene-stage" id="projects-scene">
+      <div class="scene-header">
+        <span class="scene-tag">CHAPTER 03</span>
+        <h2 class="scene-title">Flagship <span class="gradient-cyan">AI & Blockchain Projects</span></h2>
       </div>
 
-      <div class="projects-bento-grid">
-        <!-- Project 1 -->
-        <div class="project-card glass-card bento-featured">
+      <div class="projects-bento">
+        <div class="bento-card glass-card bento-featured">
           <div class="badge">FEATURED SYSTEM // BLOCKCHAIN</div>
           <h3 class="title">Zamin X - Land Ownership & Dispute Resolution</h3>
           <p class="desc">
-            Immutable digital land registration and ownership transfer system using <strong>Blockchain architecture</strong>, <strong>Streamlit UI</strong>, and <strong>Folium geospatial mapping</strong>. Prevents land fraud, double-selling, and dispute delays.
+            Immutable digital land registration and ownership transfer system using <strong>Blockchain technology</strong>, <strong>Streamlit UI</strong>, and <strong>Folium geospatial mapping</strong>. Eliminates fraudulent land sales, double-selling, and dispute delays.
           </p>
-          <div class="tech-tags">
+          <div class="tags">
             <span>Blockchain</span>
             <span>Python</span>
             <span>Streamlit</span>
             <span>Folium Maps</span>
             <span>JSON Ledger</span>
           </div>
-          <button class="btn-swap-primary btn-modal-trigger" data-title="Zamin X Architecture" data-desc="Developed a secure digital land registration and ownership management system using blockchain technology. Includes land registration, ownership transfer, GST payment tracking, and map-based land visualization to eliminate land disputes and data tampering.">View System Architecture</button>
+          <button class="btn-cinematic-primary btn-modal-trigger" data-title="Zamin X System Architecture" data-desc="Developed a secure digital land registration and ownership management system using blockchain technology. Includes land registration, ownership transfer, GST payment tracking, and map-based land visualization to eliminate land disputes and data tampering.">View System Architecture</button>
         </div>
 
-        <!-- Project 2 -->
-        <div class="project-card glass-card">
+        <div class="bento-card glass-card">
           <div class="badge">GENERATIVE AI</div>
-          <h3 class="title">CopBot - AI FIR & Legal Query System</h3>
+          <h3 class="title">CopBot - AI FIR & Legal Assistant</h3>
           <p class="desc">
-            AI-powered legal query resolution and automated FIR registration system using Generative AI prompt pipelines and web UI.
+            AI legal query resolution and automated FIR registration assistant built with Generative AI prompt pipelines and web interface.
           </p>
-          <div class="tech-tags">
+          <div class="tags">
             <span>Generative AI</span>
             <span>Prompt Engineering</span>
             <span>JavaScript</span>
             <span>Python</span>
           </div>
-          <button class="btn-swap-primary btn-modal-trigger" data-title="CopBot AI Architecture" data-desc="Built an AI-powered chatbot for legal assistance, public grievance handling, and automated FIR registration using Generative AI and prompt engineering techniques to deliver ultra-fast public support.">View System Architecture</button>
+          <button class="btn-cinematic-primary btn-modal-trigger" data-title="CopBot AI Architecture" data-desc="Built an AI-powered chatbot for legal assistance, public grievance handling, and automated FIR registration using Generative AI and prompt engineering techniques to deliver ultra-fast public support.">View System Architecture</button>
         </div>
 
-        <!-- Project 3 -->
-        <div class="project-card glass-card">
+        <div class="bento-card glass-card">
           <div class="badge">COMPUTER VISION</div>
           <h3 class="title">Marine Domain Awareness System</h3>
           <p class="desc">
-            Deep Learning ship detection and movement tracking system for maritime surveillance and coastguard coastline security.
+            Deep Learning ship detection and vessel movement surveillance tracking system for coastguard maritime security.
           </p>
-          <div class="tech-tags">
+          <div class="tags">
             <span>Deep Learning</span>
             <span>Computer Vision</span>
             <span>OpenCV</span>
             <span>Python</span>
           </div>
-          <button class="btn-swap-primary btn-modal-trigger" data-title="Marine Awareness Architecture" data-desc="Implemented ship detection and movement tracking using Deep Learning and computer vision techniques for maritime surveillance and real-time security.">View System Architecture</button>
+          <button class="btn-cinematic-primary btn-modal-trigger" data-title="Marine Awareness Architecture" data-desc="Implemented ship detection and movement tracking using Deep Learning and computer vision techniques for maritime surveillance and real-time security.">View System Architecture</button>
         </div>
       </div>
     </section>
 
-    <!-- INTERNSHIPS SECTION -->
-    <section class="section-block" id="experience-section">
-      <div class="stage-header">
-        <span class="stage-tag">CHAPTER 04</span>
-        <h2 class="stage-title">4 Technical <span class="gradient-text-glow">Internships Roadmap</span></h2>
+    <!-- INTERNSHIPS LOGS SCENE -->
+    <section class="scene-stage" id="experience-scene">
+      <div class="scene-header">
+        <span class="scene-tag">CHAPTER 04</span>
+        <h2 class="scene-title">4 Technical <span class="gradient-gold">Internship Logs</span></h2>
       </div>
 
       <div class="internships-grid">
@@ -824,15 +369,15 @@
       </div>
     </section>
 
-    <!-- CONTACT SECTION -->
-    <section class="section-block" id="contact-section">
+    <!-- CONTACT SCENE -->
+    <section class="scene-stage" id="contact-scene">
       <div class="contact-box glass-card">
-        <div class="stage-tag" style="text-align: center;">CHAPTER 05</div>
-        <h2 class="stage-title" style="text-align: center;">Initiate <span class="gradient-text-glow">Contact</span></h2>
+        <div class="scene-tag" style="text-align: center;">CHAPTER 05</div>
+        <h2 class="scene-title" style="text-align: center;">Initiate <span class="gradient-cyan">Contact</span></h2>
         <p style="text-align: center; color: var(--text-muted); margin-bottom: 40px;">Open for AI/ML engineering roles, internships, and research collaborations.</p>
 
         <div class="contact-methods">
-          <div class="method-item">
+          <div class="method-card">
             <span class="icon">📧</span>
             <div>
               <span class="lbl">Email Address</span>
@@ -840,7 +385,7 @@
             </div>
           </div>
 
-          <div class="method-item">
+          <div class="method-card">
             <span class="icon">📱</span>
             <div>
               <span class="lbl">Phone Number</span>
@@ -848,7 +393,7 @@
             </div>
           </div>
 
-          <div class="method-item">
+          <div class="method-card">
             <span class="icon">📍</span>
             <div>
               <span class="lbl">Location</span>
@@ -858,8 +403,8 @@
         </div>
 
         <div class="contact-actions">
-          <a href="mailto:Praveenrajapaids23@jkkmct.edu.in" class="btn-swap-primary">Send Email Message</a>
-          <a href="https://github.com/praveenraja143" target="_blank" class="btn-swap-glass">GitHub Profile</a>
+          <a href="mailto:Praveenrajapaids23@jkkmct.edu.in" class="btn-cinematic-primary">Send Email Message</a>
+          <a href="https://github.com/praveenraja143" target="_blank" class="btn-cinematic-ghost">GitHub Profile</a>
         </div>
       </div>
     </section>
@@ -868,8 +413,8 @@
 
   <!-- Modal Popup -->
   <div id="modal-overlay" class="modal-overlay">
-    <div class="modal-card glass-card">
-      <button id="modal-close-btn" class="modal-close">✕</button>
+    <div class="modal-box glass-card">
+      <button id="modal-close-btn" class="modal-close-btn">✕</button>
       <div class="modal-tag">PROJECT ARCHITECTURE DETAILS</div>
       <h2 id="modal-title" class="modal-title"></h2>
       <p id="modal-desc" class="modal-desc"></p>
@@ -877,9 +422,11 @@
   </div>
 
   <footer class="footer">
-    <p>© 2026 Praveenraja P. Designed with Interactive Motion & Button Swap Animations.</p>
+    <p>© 2026 Praveenraja P. Designed with Cinematic Motion & Button Swap Animations.</p>
   </footer>
 
-  <script src="./app.js"></script>
+  <!-- Scripts -->
+  <script type="module" src="./bg3d.js"></script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>
