@@ -1,9 +1,10 @@
-// Portfolio 2: Scroll-Driven Motion & Button Swap Engine
+// Portfolio 2: Cinematic Transformation Engine & Mouse Spotlight
 
 document.addEventListener('DOMContentLoaded', () => {
   initPreloader();
   initAudioEngine();
-  initScrollNavObserver();
+  initNavbarSlider();
+  initMouseSpotlight();
   initCategorySwapTabs();
   initSkillFilterSwap();
   initCustomCursor();
@@ -26,7 +27,7 @@ function initPreloader() {
     if (progress > 100) progress = 100;
 
     fill.style.width = `${progress}%`;
-    status.textContent = `INITIALIZING SYSTEM... ${progress}%`;
+    status.textContent = `INITIALIZING NEURAL MATRIX... ${progress}%`;
 
     if (progress === 100) {
       clearInterval(timer);
@@ -37,7 +38,7 @@ function initPreloader() {
   }, 60);
 }
 
-/* 2. Audio Effects Engine */
+/* 2. Audio Effects Synthesizer */
 let audioActive = true;
 let audioContext = null;
 
@@ -90,69 +91,92 @@ function playSound(freq, duration, type = 'sine') {
   } catch (e) {}
 }
 
-/* 3. Scroll-Driven Navigation Observer & Active Pill Slider */
-function initScrollNavObserver() {
-  const stages = document.querySelectorAll('.scene-stage');
+/* 3. Mouse Spotlight Radial Glow for Glass Cards */
+function initMouseSpotlight() {
+  const cards = document.querySelectorAll('.glass-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  });
+}
+
+/* 4. Navbar Slider & Cinematic Scene Flip Transition */
+function initNavbarSlider() {
   const pills = document.querySelectorAll('.nav-pill');
   const slider = document.getElementById('nav-slider');
 
-  function updateSlider(activePill) {
-    if (!slider || !activePill) return;
-    const parentRect = activePill.parentElement.getBoundingClientRect();
-    const pillRect = activePill.getBoundingClientRect();
-    slider.style.left = `${pillRect.left - parentRect.left}px`;
-    slider.style.width = `${pillRect.width}px`;
+  if (!pills.length || !slider) return;
+
+  function updateSliderPosition(btn) {
+    const parentRect = btn.parentElement.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    slider.style.left = `${btnRect.left - parentRect.left}px`;
+    slider.style.width = `${btnRect.width}px`;
   }
 
-  // Intersection Observer for scroll-driven scene reveal & navbar update
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+  const activePill = document.querySelector('.nav-pill.active');
+  if (activePill) updateSliderPosition(activePill);
 
-        const id = entry.target.getAttribute('id');
-        pills.forEach(pill => {
-          pill.classList.remove('active');
-          if (pill.getAttribute('data-target') === id) {
-            pill.classList.add('active');
-            updateSlider(pill);
-          }
-        });
-      }
-    });
-  }, { threshold: 0.25 });
-
-  stages.forEach(stage => observer.observe(stage));
-
-  // Navbar Pill Clicks for smooth scrolling
   pills.forEach(pill => {
     pill.addEventListener('click', () => {
-      const targetId = pill.getAttribute('data-target');
-      const targetElem = document.getElementById(targetId);
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      updateSliderPosition(pill);
 
-      if (targetElem) {
-        targetElem.scrollIntoView({ behavior: 'smooth' });
-      }
+      const targetId = pill.getAttribute('data-target');
+      switchScene(targetId);
     });
   });
 
-  const firstActive = document.querySelector('.nav-pill.active');
-  if (firstActive) updateSlider(firstActive);
-
   window.addEventListener('resize', () => {
     const current = document.querySelector('.nav-pill.active');
-    if (current) updateSlider(current);
+    if (current) updateSliderPosition(current);
   });
 }
 
 window.switchScene = function(targetId) {
-  const target = document.getElementById(targetId);
-  if (target) {
-    target.scrollIntoView({ behavior: 'smooth' });
+  const currentActive = document.querySelector('.scene-stage.active');
+  const targetStage = document.getElementById(targetId);
+
+  if (!targetStage || currentActive === targetStage) return;
+
+  if (currentActive) {
+    currentActive.classList.remove('active');
+  }
+
+  targetStage.classList.add('entering');
+  setTimeout(() => {
+    targetStage.classList.remove('entering');
+    targetStage.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 50);
+
+  // Sound chime trigger
+  if (audioActive) playSound(640, 0.08, 'sine');
+
+  // Sync Navbar slider if triggered from page buttons
+  const matchingPill = document.querySelector(`.nav-pill[data-target="${targetId}"]`);
+  if (matchingPill) {
+    const pills = document.querySelectorAll('.nav-pill');
+    pills.forEach(p => p.classList.remove('active'));
+    matchingPill.classList.add('active');
+
+    const slider = document.getElementById('nav-slider');
+    if (slider) {
+      const parentRect = matchingPill.parentElement.getBoundingClientRect();
+      const btnRect = matchingPill.getBoundingClientRect();
+      slider.style.left = `${btnRect.left - parentRect.left}px`;
+      slider.style.width = `${btnRect.width}px`;
+    }
   }
 };
 
-/* 4. Category Tab Panel Swap */
+/* 5. Category Tab Panel Swap with 3D Flip */
 function initCategorySwapTabs() {
   const swapBtns = document.querySelectorAll('.swap-btn');
   const panels = document.querySelectorAll('.swap-panel');
@@ -165,13 +189,17 @@ function initCategorySwapTabs() {
       const tab = btn.getAttribute('data-tab');
       panels.forEach(p => {
         p.classList.remove('active');
-        if (p.id === `panel-${tab}`) p.classList.add('active');
+        if (p.id === `panel-${tab}`) {
+          p.classList.add('active');
+        }
       });
+
+      if (audioActive) playSound(520, 0.05, 'triangle');
     });
   });
 }
 
-/* 5. Skill Matrix Filter */
+/* 6. Skill Matrix Filter */
 function initSkillFilterSwap() {
   const filterBtns = document.querySelectorAll('.filter-btn');
   const cards = document.querySelectorAll('.matrix-card');
@@ -189,11 +217,13 @@ function initSkillFilterSwap() {
           c.style.display = 'none';
         }
       });
+
+      if (audioActive) playSound(480, 0.05, 'sine');
     });
   });
 }
 
-/* 6. Custom Cursor */
+/* 7. Custom Follower Cursor */
 function initCustomCursor() {
   const dot = document.getElementById('cursor-dot');
   const ring = document.getElementById('cursor-ring');
@@ -216,7 +246,7 @@ function initCustomCursor() {
   renderRing();
 }
 
-/* 7. Typewriter Effect */
+/* 8. Typewriter Effect */
 function initTypewriter() {
   const target = document.getElementById('typewriter');
   if (!target) return;
@@ -254,7 +284,7 @@ function initTypewriter() {
   type();
 }
 
-/* 8. 3D Tilt Card */
+/* 9. 3D Hologram Tilt Card */
 function initTiltCard() {
   const card = document.getElementById('holo-card');
   if (!card) return;
@@ -275,7 +305,7 @@ function initTiltCard() {
   });
 }
 
-/* 9. Modal System */
+/* 10. Modal System */
 function initModalSystem() {
   const overlay = document.getElementById('modal-overlay');
   const titleElem = document.getElementById('modal-title');
