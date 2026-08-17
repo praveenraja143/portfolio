@@ -3,259 +3,446 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Praveenraja P | AI Developer Portfolios</title>
-  <meta name="description" content="Select and experience Praveenraja P's 2 custom cinematic AI Developer portfolios.">
+  <title>Praveenraja P | Cinematic AI Architect Portfolio</title>
+  <meta name="description" content="A cinematic developer portfolio where AI code meets storytelling and motion. Portfolio of Praveenraja P - B.Tech AI & Data Science Engineer.">
   
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <style>
-    :root {
-      --bg: #060913;
-      --card-bg: rgba(15, 23, 42, 0.7);
-      --cyan: #00f2fe;
-      --blue: #4facfe;
-      --violet: #7928ca;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-    }
+  <link rel="stylesheet" href="./styles.css">
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-      overflow-x: hidden;
-      padding: 40px 20px;
+  <!-- ES Module Import Map for Three.js (Required for raw browser ES modules) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
     }
+  }
+  </script>
 
-    /* Ambient Glows */
-    .glow {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(150px);
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.35;
-    }
-    .glow-1 { top: -10%; left: 15%; width: 500px; height: 500px; background: var(--cyan); }
-    .glow-2 { bottom: -10%; right: 15%; width: 500px; height: 500px; background: var(--violet); }
-
-    .portal-header {
-      text-align: center;
-      max-width: 800px;
-      margin-top: 40px;
-      z-index: 2;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 6px 16px;
-      background: rgba(0, 242, 254, 0.1);
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      color: var(--cyan);
-      border-radius: 30px;
-      font-size: 0.8rem;
-      font-family: 'Fira Code', monospace;
-      letter-spacing: 0.1em;
-      margin-bottom: 20px;
-    }
-
-    .title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 3.5rem;
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-
-    .gradient-text {
-      background: linear-gradient(135deg, var(--cyan), var(--blue), var(--violet));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .subtitle {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .portal-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 36px;
-      max-width: 1100px;
-      width: 100%;
-      margin: 60px 0;
-      z-index: 2;
-    }
-
-    .portal-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 24px;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      text-decoration: none;
-      color: var(--text);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .portal-card:hover {
-      border-color: var(--cyan);
-      transform: translateY(-8px);
-      box-shadow: 0 20px 50px rgba(0, 242, 254, 0.2);
-    }
-
-    .card-version {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.78rem;
-      color: var(--cyan);
-      margin-bottom: 16px;
-    }
-
-    .card-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .card-desc {
-      color: var(--text-muted);
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
-
-    .card-features {
-      list-style: none;
-      margin-bottom: 36px;
-    }
-
-    .card-features li {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .card-features li::before {
-      content: '✦';
-      color: var(--cyan);
-    }
-
-    .card-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 14px 28px;
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
-      color: #040810;
-      font-weight: 700;
-      border-radius: 40px;
-      font-size: 0.95rem;
-      transition: all 0.3s;
-    }
-
-    .portal-card:hover .card-btn {
-      box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
-    }
-
-    .card-2-btn {
-      background: linear-gradient(135deg, var(--violet), #ec4899);
-      color: #fff;
-    }
-
-    .footer {
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      text-align: center;
-      z-index: 2;
-    }
-
-    @media (max-width: 850px) {
-      .portal-grid { grid-template-columns: 1fr; }
-      .title { font-size: 2.5rem; }
-    }
-  </style>
+  <!-- Person JSON-LD Schema for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Praveenraja P",
+    "jobTitle": "AI & Data Science Engineer",
+    "alumniOf": "JKKM College of Technology",
+    "email": "Praveenrajapaids23@jkkmct.edu.in",
+    "telephone": "+917603835392"
+  }
+  </script>
 </head>
 <body>
 
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
-
-  <header class="portal-header">
-    <div class="badge">PRAVEENRAJA P // PORTFOLIO PORTAL</div>
-    <h1 class="title">Choose Your <span class="gradient-text">Portfolio Experience</span></h1>
-    <p class="subtitle">Experience 2 distinct, cinematic developer website designs created for Praveenraja P (B.Tech AI & Data Science Engineer).</p>
-  </header>
-
-  <div class="portal-grid">
-    <!-- Option 1 -->
-    <a href="./portfolio1/index.html" class="portal-card">
-      <div>
-        <div class="card-version">STYLE 01 // CINEMATIC MOTION</div>
-        <h2 class="card-title">Dark Motion & Glassmorphism</h2>
-        <p class="card-desc">Sleek obsidian dark UI with floating glassmorphic cards, interactive particle connection canvas, glowing typography, and smooth scroll animations.</p>
-        
-        <ul class="card-features">
-          <li>Interactive Particle Network Canvas</li>
-          <li>Glassmorphism Bento Project Grid</li>
-          <li>3D Profile Card Tilt Effect</li>
-          <li>Category-Filtered Skill Matrix</li>
-        </ul>
-      </div>
-
-      <div class="card-btn">
-        <span>Launch Portfolio 1</span>
-        <span>→</span>
-      </div>
-    </a>
-
-    <!-- Option 2 -->
-    <a href="./portfolio2/index.html" class="portal-card">
-      <div>
-        <div class="card-version" style="color: var(--violet);">STYLE 02 // CYBERPUNK AI HUD</div>
-        <h2 class="card-title">Cyberpunk AI CLI Terminal</h2>
-        <p class="card-desc">Futuristic AI command center with interactive CLI terminal console where visitors can type commands, HUD diagnostics, and holographic blueprint cards.</p>
-        
-        <ul class="card-features">
-          <li>Interactive CLI Command Prompt Console</li>
-          <li>System Diagnostics & Metric HUD</li>
-          <li>Holographic Project Blueprints</li>
-          <li>Real-Time Career Execution Logs</li>
-        </ul>
-      </div>
-
-      <div class="card-btn card-2-btn">
-        <span>Launch Portfolio 2</span>
-        <span>→</span>
-      </div>
-    </a>
+  <!-- Preloader Screen -->
+  <div id="preloader" class="preloader">
+    <div class="preloader-content">
+      <div class="preloader-title">PRAVEENRAJA P</div>
+      <div class="preloader-sub">CINEMATIC AI ARCHITECT EXPERIENTIAL PORTFOLIO</div>
+      <div class="preloader-bar"><div id="preloader-progress" class="preloader-progress"></div></div>
+      <div id="preloader-text" class="preloader-status">INITIALIZING NEURAL MATRIX... 0%</div>
+    </div>
   </div>
 
-  <footer class="footer">
-    <p>© 2026 Praveenraja P. All rights reserved. B.Tech AI & Data Science Engineer.</p>
+  <!-- WebGL 3D Background Canvas -->
+  <canvas id="webgl-bg"></canvas>
+
+  <!-- Grain Texture Overlay -->
+  <div class="grain-overlay"></div>
+
+  <!-- Custom Cinematic Follower Cursor -->
+  <div id="cursor-dot" class="cursor-dot"></div>
+  <div id="cursor-ring" class="cursor-ring"></div>
+
+  <!-- Audio Toggle Floating Controller -->
+  <button id="audio-toggle" class="audio-toggle-btn" title="Toggle Sound Effects">
+    <span class="audio-icon">🔊</span>
+    <span id="audio-label" class="audio-label">SOUND: ON</span>
+  </button>
+
+  <!-- Top Floating Navbar -->
+  <header class="navbar-container">
+    <nav class="navbar glass-panel">
+      <a href="#hero" class="brand-logo">
+        PRAVEENRAJA <span class="brand-sub">AI ARCHITECT</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#hero" class="nav-link active" data-scene="01">01. Hero</a></li>
+        <li><a href="#about" class="nav-link" data-scene="02">02. Story</a></li>
+        <li><a href="#matrix" class="nav-link" data-scene="03">03. Matrix</a></li>
+        <li><a href="#projects" class="nav-link" data-scene="04">04. Flagships</a></li>
+        <li><a href="#experience" class="nav-link" data-scene="05">05. Logs</a></li>
+        <li><a href="#contact" class="nav-link" data-scene="06">06. Contact</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <a href="./portfolio1/index.html" class="style-badge-btn" title="Switch to Glassmorphism Style">Style 01</a>
+        <a href="./portfolio2/index.html" class="style-badge-btn" title="Switch to Cyberpunk Terminal Style">Style 02</a>
+        <a href="#contact" class="btn-cinematic-sm">Initiate Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- MAIN SCENE STAGE -->
+  <main class="cinematic-stage">
+
+    <!-- SCENE 01: HERO STAGE -->
+    <section class="scene-hero" id="hero">
+      <div class="hero-stage-content">
+        <div class="scene-tag-badge">
+          <span class="pulse-dot"></span>
+          CHAPTER 01 // CINEMATIC AI EXPERIENCE
+        </div>
+
+        <h1 class="cinematic-headline">
+          WHERE CODE MEETS <br>
+          <span class="gradient-text-gold">STORYTELLING & MOTION</span>
+        </h1>
+
+        <div class="hero-tagline-box">
+          <span class="tagline-prefix">Praveenraja P —</span>
+          <span id="typewriter" class="typewriter-text"></span>
+          <span class="typewriter-cursor">|</span>
+        </div>
+
+        <p class="hero-manifesto">
+          B.Tech AI & Data Science Engineer (8.80 CGPA). Crafting high-impact Generative AI pipelines, Deep Learning vision models, and immutable Blockchain land registries.
+        </p>
+
+        <div class="hero-action-group">
+          <a href="#projects" class="btn-cinematic-primary">
+            <span>Explore Flagship Systems</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#about" class="btn-cinematic-ghost">
+            <span>Begin The Journey ↓</span>
+          </a>
+        </div>
+
+        <!-- Quick Stats Banner -->
+        <div class="hero-stats-strip">
+          <div class="stat-cell">
+            <span class="stat-number">8.80</span>
+            <span class="stat-label">B.Tech CGPA Rank 1</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-number">04</span>
+            <span class="stat-label">Technical Internships</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-number">15+</span>
+            <span class="stat-label">Symposium Papers</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-number">TOP 500</span>
+            <span class="stat-label">Niral Thiruvizha 3.0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D Interactive Profile Hologram Frame -->
+      <div class="hero-hologram-wrapper">
+        <div class="hologram-card glass-panel" id="holo-card">
+          <div class="holo-image-container">
+            <img src="./praveenraja.jpg" alt="Praveenraja P" class="holo-img">
+            <div class="holo-scan-line"></div>
+            <div class="holo-corner top-left"></div>
+            <div class="holo-corner top-right"></div>
+            <div class="holo-corner bottom-left"></div>
+            <div class="holo-corner bottom-right"></div>
+          </div>
+          <div class="holo-details">
+            <h3 class="holo-name">PRAVEENRAJA P</h3>
+            <p class="holo-role">AI & Data Science Architect</p>
+            <div class="holo-status-line">
+              <span class="status-dot-green"></span> SYSTEM READY // COIMBATORE, TN
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 02: THE ARCHITECT'S STORY -->
+    <section class="scene-block" id="about">
+      <div class="container">
+        <div class="scene-header">
+          <span class="scene-number">CHAPTER 02</span>
+          <h2 class="scene-title">The <span class="gradient-text-cyan">Architect's Journey</span></h2>
+          <p class="scene-desc">Blending technical rigor with creative execution across AI, Machine Learning, and Blockchain.</p>
+        </div>
+
+        <div class="story-grid">
+          <div class="story-card glass-panel">
+            <div class="story-icon">🏛️</div>
+            <h3>Academic Excellence</h3>
+            <p>Pursuing <strong>B.Tech in Artificial Intelligence & Data Science</strong> at JKKM College of Technology (2023 - 2027) with an outstanding <strong>8.80 CGPA</strong>, awarded Class Topper 2025.</p>
+          </div>
+
+          <div class="story-card glass-panel">
+            <div class="story-icon">⚡</div>
+            <h3>Generative AI & Prototyping</h3>
+            <p>Specialized in LLM Prompt Engineering, automated code generation pipelines, Streamlit web applications, and real-time computer vision deployment.</p>
+          </div>
+
+          <div class="story-card glass-panel">
+            <div class="story-icon">🌐</div>
+            <h3>Blockchain Innovation</h3>
+            <p>Architect of <strong>Zamin X</strong>, a tamper-proof land ownership transfer system eliminating land fraud through cryptographic hashing and immutable ledgers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 03: NEURAL MATRIX & SKILLS -->
+    <section class="scene-block" id="matrix">
+      <div class="container">
+        <div class="scene-header">
+          <span class="scene-number">CHAPTER 03</span>
+          <h2 class="scene-title">Neural <span class="gradient-text-gold">Skill Matrix</span></h2>
+        </div>
+
+        <div class="matrix-grid">
+          <div class="matrix-card glass-panel">
+            <div class="matrix-head">
+              <span class="matrix-title">Generative AI & LLMs</span>
+              <span class="matrix-perc">95%</span>
+            </div>
+            <p class="matrix-desc">Prompt Engineering, AI Agents, Code Debugging, Custom AI Chatbots.</p>
+            <div class="matrix-bar"><div class="matrix-fill" style="width: 95%;"></div></div>
+          </div>
+
+          <div class="matrix-card glass-panel">
+            <div class="matrix-head">
+              <span class="matrix-title">Machine Learning & DL</span>
+              <span class="matrix-perc">90%</span>
+            </div>
+            <p class="matrix-desc">Supervised/Unsupervised Algorithms, Neural Networks, Computer Vision (YOLO/OpenCV).</p>
+            <div class="matrix-bar"><div class="matrix-fill" style="width: 90%;"></div></div>
+          </div>
+
+          <div class="matrix-card glass-panel">
+            <div class="matrix-head">
+              <span class="matrix-title">Python Development</span>
+              <span class="matrix-perc">96%</span>
+            </div>
+            <p class="matrix-desc">NumPy, Pandas, Scikit-Learn, Streamlit, Folium, System Scripting.</p>
+            <div class="matrix-bar"><div class="matrix-fill" style="width: 96%;"></div></div>
+          </div>
+
+          <div class="matrix-card glass-panel">
+            <div class="matrix-head">
+              <span class="matrix-title">Java & Data Structures</span>
+              <span class="matrix-perc">85%</span>
+            </div>
+            <p class="matrix-desc">OOP Architecture, Arrays, Trees, Graphs, Sorting & Optimization Algorithms.</p>
+            <div class="matrix-bar"><div class="matrix-fill" style="width: 85%;"></div></div>
+          </div>
+
+          <div class="matrix-card glass-panel">
+            <div class="matrix-head">
+              <span class="matrix-title">Blockchain Architecture</span>
+              <span class="matrix-perc">88%</span>
+            </div>
+            <p class="matrix-desc">Smart Contracts, Cryptographic Hashing, Immutable Land Registry Ledger.</p>
+            <div class="matrix-bar"><div class="matrix-fill" style="width: 88%;"></div></div>
+          </div>
+
+          <div class="matrix-card glass-panel">
+            <div class="matrix-head">
+              <span class="matrix-title">Developer Tooling</span>
+              <span class="matrix-perc">92%</span>
+            </div>
+            <p class="matrix-desc">Git, GitHub CI/CD, VS Code, Windsurf IDE, Figma Design, Windows OS.</p>
+            <div class="matrix-bar"><div class="matrix-fill" style="width: 92%;"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 04: FLAGSHIP AI PROJECTS SHOWCASE -->
+    <section class="scene-block" id="projects">
+      <div class="container">
+        <div class="scene-header">
+          <span class="scene-number">CHAPTER 04</span>
+          <h2 class="scene-title">Flagship <span class="gradient-text-cyan">Systems Showcase</span></h2>
+        </div>
+
+        <div class="projects-cinema-grid">
+
+          <!-- Project 1: Zamin X -->
+          <div class="cinema-card glass-panel cinema-featured">
+            <div class="cinema-card-visual">
+              <div class="visual-tag">FEATURED SYSTEM // 01</div>
+              <h3 class="visual-title">ZAMIN X</h3>
+              <div class="visual-subtitle">Tamper-Proof Land Ownership & Dispute Resolution Platform</div>
+            </div>
+            <div class="cinema-card-body">
+              <p class="project-summary">
+                A groundbreaking digital land registration and ownership transfer system powered by <strong>Blockchain technology</strong>, <strong>Streamlit</strong>, and <strong>Folium geospatial mapping</strong>. Eliminates fraudulent land sales, double-selling, and dispute delays through immutable cryptographic hashing.
+              </p>
+              <div class="project-tags">
+                <span>Blockchain</span>
+                <span>Python</span>
+                <span>Streamlit</span>
+                <span>Folium Maps</span>
+                <span>JSON Ledger</span>
+              </div>
+              <div class="project-actions">
+                <button class="btn-demo-modal" data-title="Zamin X - Blockchain Land Ownership System" data-desc="Developed a secure digital land registration and ownership transfer management system using blockchain technology. Includes land registration, ownership transfer, GST payment tracking, and map-based land visualization to eliminate land disputes and data tampering.">View System Architecture</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2: CopBot -->
+          <div class="cinema-card glass-panel">
+            <div class="cinema-card-visual visual-copbot">
+              <div class="visual-tag">GENERATIVE AI // 02</div>
+              <h3 class="visual-title">COPBOT</h3>
+              <div class="visual-subtitle">AI FIR & Legal Query Assistance System</div>
+            </div>
+            <div class="cinema-card-body">
+              <p class="project-summary">
+                AI-driven legal assistance and automated FIR grievance filing platform utilizing <strong>Generative AI LLM models</strong> and prompt engineering pipelines for lightning-fast public support.
+              </p>
+              <div class="project-tags">
+                <span>Generative AI</span>
+                <span>Prompt Engineering</span>
+                <span>JavaScript</span>
+                <span>Python</span>
+              </div>
+              <div class="project-actions">
+                <button class="btn-demo-modal" data-title="CopBot - AI Legal & FIR Assistant" data-desc="Built an AI-powered chatbot for legal assistance, public grievance handling, and automated FIR registration using Generative AI and prompt engineering techniques to deliver ultra-fast public support.">View System Architecture</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3: Marine Domain Awareness -->
+          <div class="cinema-card glass-panel">
+            <div class="cinema-card-visual visual-marine">
+              <div class="visual-tag">DEEP LEARNING // 03</div>
+              <h3 class="visual-title">MARINE AWARENESS</h3>
+              <div class="visual-subtitle">Ship Detection & Movement Surveillance System</div>
+            </div>
+            <div class="cinema-card-body">
+              <p class="project-summary">
+                Maritime security platform implementing <strong>Deep Learning object detection</strong> and computer vision for vessel movement tracking and coastguard surveillance.
+              </p>
+              <div class="project-tags">
+                <span>Deep Learning</span>
+                <span>Computer Vision</span>
+                <span>OpenCV</span>
+                <span>Python</span>
+              </div>
+              <div class="project-actions">
+                <button class="btn-demo-modal" data-title="Marine Domain Awareness System" data-desc="Implemented ship detection and movement tracking using Deep Learning and computer vision techniques for maritime surveillance and real-time security.">View System Architecture</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 05: CAREER & INTERNSHIP MISSION LOGS -->
+    <section class="scene-block" id="experience">
+      <div class="container">
+        <div class="scene-header">
+          <span class="scene-number">CHAPTER 05</span>
+          <h2 class="scene-title">Career <span class="gradient-text-gold">Mission Logs</span></h2>
+          <p class="scene-desc">4 Technical Internships across Cloud, Generative AI, Machine Learning, and Python.</p>
+        </div>
+
+        <div class="mission-timeline">
+          <div class="mission-item glass-panel">
+            <div class="mission-date">JUN 2026</div>
+            <div class="mission-role">Cloud Computing Intern</div>
+            <div class="mission-company">Coriza</div>
+            <p>Configured cloud architecture deployment, serverless pipelines, database management, and cloud security compliance.</p>
+          </div>
+
+          <div class="mission-item glass-panel">
+            <div class="mission-date">JUN 2025 – JUL 2025</div>
+            <div class="mission-role">Generative AI Intern</div>
+            <div class="mission-company">CISPRO, Coimbatore</div>
+            <p>Engineered LLM prompt pipelines, automated AI legal query workflows, and integrated production GenAI modules.</p>
+          </div>
+
+          <div class="mission-item glass-panel">
+            <div class="mission-date">JAN 2025 – FEB 2025</div>
+            <div class="mission-role">Machine Learning Intern</div>
+            <div class="mission-company">Tech World, Coimbatore</div>
+            <p>Built predictive regression/classification ML models, feature engineering pipelines, and dataset validation frameworks.</p>
+          </div>
+
+          <div class="mission-item glass-panel">
+            <div class="mission-date">JUN 2024 – JUL 2024</div>
+            <div class="mission-role">Python Developer Intern</div>
+            <div class="mission-company">CISPRO, Coimbatore</div>
+            <p>Developed core Python automation scripts, file system parsers, database adapters, and interactive tool utilities.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 06: INITIATE CONTACT -->
+    <section class="scene-block" id="contact">
+      <div class="container">
+        <div class="contact-cinematic-box glass-panel">
+          <div class="scene-number" style="justify-content: center; display: flex;">CHAPTER 06</div>
+          <h2 class="scene-title">Initiate <span class="gradient-text-cyan">Contact</span></h2>
+          <p class="scene-desc" style="margin-bottom: 40px;">Ready to collaborate on high-impact AI, Machine Learning, and Software projects.</p>
+
+          <div class="contact-methods">
+            <div class="method-card">
+              <span class="method-icon">📧</span>
+              <span class="method-label">Direct Email</span>
+              <a href="mailto:Praveenrajapaids23@jkkmct.edu.in" class="method-value">Praveenrajapaids23@jkkmct.edu.in</a>
+            </div>
+
+            <div class="method-card">
+              <span class="method-icon">📱</span>
+              <span class="method-label">Direct Line</span>
+              <a href="tel:+917603835392" class="method-value">+91 7603835392</a>
+            </div>
+
+            <div class="method-card">
+              <span class="method-icon">📍</span>
+              <span class="method-label">Location</span>
+              <span class="method-value">Coimbatore, Tamil Nadu, India</span>
+            </div>
+          </div>
+
+          <div class="contact-cta-buttons">
+            <a href="mailto:Praveenrajapaids23@jkkmct.edu.in" class="btn-cinematic-primary">Send Email Message</a>
+            <a href="https://github.com/praveenraja143" target="_blank" class="btn-cinematic-ghost">GitHub Repository</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Project Modal -->
+  <div id="project-modal" class="modal-backdrop">
+    <div class="modal-box glass-panel">
+      <button id="modal-close" class="modal-close-btn">✕</button>
+      <div class="modal-tag">SYSTEM ARCHITECTURE BREAKDOWN</div>
+      <h2 id="modal-title" class="modal-title"></h2>
+      <p id="modal-desc" class="modal-desc"></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="cinematic-footer">
+    <p>© 2026 PRAVEENRAJA P — CINEMATIC AI DEVELOPER PORTFOLIO</p>
   </footer>
 
+  <script type="module" src="./js/bg3d.js"></script>
+  <script type="module" src="./js/app.js"></script>
 </body>
 </html>
