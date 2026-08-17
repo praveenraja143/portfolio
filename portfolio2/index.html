@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Reenie+Beanie&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <style>
-    /* Portfolio 2: Embedded Exact Video Match Design System */
+    /* Portfolio 2: Embedded Exact Video Match Design System & Transformations */
     :root {
       --bg-main: #0a0d14;
       --bg-card: rgba(15, 20, 32, 0.85);
@@ -33,7 +33,7 @@
       --font-mono: 'JetBrains Mono', monospace;
       --font-handwriting: 'Reenie Beanie', cursive;
       
-      --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * {
@@ -204,6 +204,20 @@
       padding: 140px 40px 80px;
     }
 
+    /* SCROLL REVEAL TRANSFORMATIONS */
+    .reveal-block {
+      opacity: 0;
+      transform: translateY(50px) scale(0.96);
+      filter: blur(8px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-block.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0px);
+    }
+
     /* HERO SECTION */
     .hero-section {
       min-height: 80vh;
@@ -272,7 +286,7 @@
     }
 
     .btn-gold-filled:hover {
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.03);
       box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
     }
 
@@ -295,14 +309,15 @@
     .btn-gold-outline:hover {
       border-color: var(--gold-glow);
       color: var(--gold-glow) !important;
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.03);
     }
 
-    /* HERO RIGHT PHOTO FRAME */
+    /* HERO RIGHT PHOTO FRAME WITH PRAVEENRAJA'S ACTUAL PHOTO & SCAN BEAM */
     .photo-card-frame {
       position: relative;
       width: 360px;
       margin: 0 auto;
+      perspective: 1000px;
     }
 
     .photo-glow-border {
@@ -311,21 +326,47 @@
       border: 1px solid var(--border-gold);
       border-radius: 24px;
       pointer-events: none;
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
     }
 
-    .hero-photo {
+    .hero-photo-real {
       width: 100%;
-      height: 460px;
+      height: 480px;
       object-fit: cover;
       border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      animation: walkFloat 4s infinite ease-in-out;
+      transition: var(--transition-smooth);
+    }
+
+    @keyframes walkFloat {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-8px) scale(1.02); }
+    }
+
+    .photo-scan-beam {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 4px;
+      background: var(--gold-glow);
+      box-shadow: 0 0 15px var(--gold-glow);
+      border-radius: 10px;
+      animation: goldScan 3.5s infinite linear;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    @keyframes goldScan {
+      0% { top: 0; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
     }
 
     .photo-handwriting {
       position: absolute;
       bottom: 20px;
       right: -30px;
-      background: rgba(10, 13, 20, 0.9);
+      background: rgba(10, 13, 20, 0.92);
       padding: 14px 20px;
       border-radius: 12px;
       border: 1px solid var(--border-gold);
@@ -333,6 +374,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
+      z-index: 3;
     }
 
     .photo-handwriting .quote {
@@ -396,6 +438,12 @@
       border: 1px solid var(--border-subtle);
       padding: 20px;
       border-radius: 14px;
+      transition: var(--transition-smooth);
+    }
+
+    .stat-card:hover {
+      border-color: var(--border-gold);
+      transform: translateY(-4px);
     }
 
     .stat-num {
@@ -456,8 +504,8 @@
 
     .project-stacked-card:hover {
       border-color: var(--border-gold);
-      box-shadow: 0 20px 50px rgba(212, 175, 55, 0.12);
-      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15);
+      transform: translateY(-6px) scale(1.01);
     }
 
     .project-cat-tag {
@@ -841,11 +889,12 @@
           </div>
         </div>
 
-        <!-- HERO RIGHT: PHOTO FRAME WITH SIGNATURE -->
+        <!-- HERO RIGHT: PRAVEENRAJA'S ACTUAL PHOTO WITH GOLD SCAN BEAM -->
         <div class="hero-right">
           <div class="photo-card-frame">
             <div class="photo-glow-border"></div>
-            <img src="../praveenraja.jpg" alt="Praveenraja P" class="hero-photo">
+            <div class="photo-scan-beam"></div>
+            <img src="../praveenraja.jpg" alt="Praveenraja P" class="hero-photo-real">
             
             <!-- Handwritten Cursive Annotation -->
             <div class="photo-handwriting">
@@ -859,7 +908,7 @@
     </section>
 
     <!-- SECTION 01: ABOUT ME -->
-    <section class="section-block" id="about">
+    <section class="section-block reveal-block" id="about">
       <div class="section-header-tag">01 / ABOUT ME</div>
       
       <div class="about-flex-layout">
@@ -904,7 +953,7 @@
     </section>
 
     <!-- SECTION 02: FEATURED WORKS -->
-    <section class="section-block" id="projects">
+    <section class="section-block reveal-block" id="projects">
       <div class="section-header-tag">02 / FEATURED WORKS</div>
       <h2 class="section-headline">
         SELECTED WORKS. <br>
@@ -914,7 +963,7 @@
       <div class="stacked-projects-list">
 
         <!-- PROJECT 01: Zamin X -->
-        <div class="project-stacked-card">
+        <div class="project-stacked-card reveal-block">
           <div class="project-left-info">
             <span class="project-cat-tag">01 // BLOCKCHAIN & PYTHON</span>
             <h3 class="project-name">ZAMIN X</h3>
@@ -949,7 +998,7 @@
         </div>
 
         <!-- PROJECT 02: CopBot -->
-        <div class="project-stacked-card">
+        <div class="project-stacked-card reveal-block">
           <div class="project-left-info">
             <span class="project-cat-tag">02 // GENERATIVE AI</span>
             <h3 class="project-name">COPBOT</h3>
@@ -983,7 +1032,7 @@
         </div>
 
         <!-- PROJECT 03: Marine Domain Awareness -->
-        <div class="project-stacked-card">
+        <div class="project-stacked-card reveal-block">
           <div class="project-left-info">
             <span class="project-cat-tag">03 // DEEP LEARNING & CV</span>
             <h3 class="project-name">MARINE DOMAIN AWARENESS</h3>
@@ -1020,7 +1069,7 @@
     </section>
 
     <!-- SECTION 03: TECH MATRIX & SKILLS -->
-    <section class="section-block" id="skills">
+    <section class="section-block reveal-block" id="skills">
       <div class="section-header-tag">03 / TECH MATRIX</div>
       <h2 class="section-headline">
         ARCHITECTURAL MASTERY. <br>
@@ -1081,7 +1130,7 @@
     </section>
 
     <!-- SECTION 04: EXPERIENCE & MILESTONES -->
-    <section class="section-block" id="experience">
+    <section class="section-block reveal-block" id="experience">
       <div class="section-header-tag">04 / EXPERIENCE</div>
       <h2 class="section-headline">
         EXPERIENCE & <br>
@@ -1140,7 +1189,7 @@
     </section>
 
     <!-- SECTION 05: CONTACT / TRANSMISSION -->
-    <section class="section-block" id="contact">
+    <section class="section-block reveal-block" id="contact">
       <div class="section-header-tag">05 / CONTACT</div>
       <h2 class="section-headline">
         INITIALIZE <br>

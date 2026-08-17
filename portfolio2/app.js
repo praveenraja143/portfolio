@@ -1,9 +1,11 @@
-// Portfolio 2: Video-Match Experiential Logic
+// Portfolio 2: Video Match Transformations & Experiential Engine
 
 document.addEventListener('DOMContentLoaded', () => {
   initCustomCursor();
   initBackgroundParticles();
   initScrollNavHighlight();
+  initRevealTransformations();
+  initPhotoTilt3D();
 });
 
 /* 1. Custom Follower Cursor */
@@ -91,7 +93,7 @@ function initScrollNavHighlight() {
     let scrollY = window.scrollY;
 
     sections.forEach(sec => {
-      const top = sec.offsetTop - 150;
+      const top = sec.offsetTop - 180;
       const height = sec.offsetHeight;
       const id = sec.getAttribute('id');
 
@@ -104,5 +106,43 @@ function initScrollNavHighlight() {
         });
       }
     });
+  });
+}
+
+/* 4. IntersectionObserver for Reveal Transformations */
+function initRevealTransformations() {
+  const revealElements = document.querySelectorAll('.reveal-block');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  revealElements.forEach(el => observer.observe(el));
+}
+
+/* 5. 3D Hologram Tilt on Hero Real Photo */
+function initPhotoTilt3D() {
+  const frame = document.querySelector('.photo-card-frame');
+  const photo = document.querySelector('.hero-photo-real');
+
+  if (!frame || !photo) return;
+
+  frame.addEventListener('mousemove', (e) => {
+    const rect = frame.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    const rotX = (y / (rect.height / 2)) * -12;
+    const rotY = (x / (rect.width / 2)) * 12;
+
+    photo.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.04)`;
+  });
+
+  frame.addEventListener('mouseleave', () => {
+    photo.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
   });
 }
