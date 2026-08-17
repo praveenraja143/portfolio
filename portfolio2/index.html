@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Praveenraja P | Cyberpunk AI Terminal & Command Center</title>
+  <meta name="description" content="Cyberpunk Interactive Terminal Portfolio of Praveenraja P - B.Tech AI & Data Science Specialist, ML, DL & Blockchain Developer.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+  <!-- Cyber Scanline Overlay -->
+  <div class="scanlines"></div>
+  <div class="cyber-grid-bg"></div>
+
+  <!-- Top Cyber Status Bar HUD -->
+  <div class="hud-topbar">
+    <div class="hud-left">
+      <span class="hud-symbol">⚡</span>
+      <span class="hud-title">SYSTEM ONLINE: PRAVEENRAJA_AI_CORE_v2.4</span>
+    </div>
+
+    <div class="hud-center">
+      <span class="hud-stat">STATUS: <span class="neon-green">ACTIVE</span></span>
+      <span class="hud-stat">CGPA: <span class="neon-cyan">8.80</span></span>
+      <span class="hud-stat">INTERNSHIPS: <span class="neon-violet">4</span></span>
+    </div>
+
+    <div class="hud-right">
+      <a href="../index.html" class="cyber-switch-btn">⇄ SWITCH PORTFOLIO</a>
+    </div>
+  </div>
+
+  <div class="cyber-container">
+    
+    <!-- HERO COMMAND CENTER HEADER -->
+    <header class="cyber-header">
+      <div class="cyber-badge">AI & DATA SCIENCE ENGINEER</div>
+      <h1 class="cyber-glitch-title" data-text="PRAVEENRAJA P">PRAVEENRAJA P</h1>
+      <p class="cyber-subtitle">&gt; SPECIALIZING IN GENERATIVE AI, MACHINE LEARNING, DEEP LEARNING & BLOCKCHAIN SYSTEMS</p>
+    </header>
+
+    <!-- INTERACTIVE CLI TERMINAL CONSOLE -->
+    <section class="cyber-console-box">
+      <div class="console-header">
+        <div class="console-buttons">
+          <span class="btn-dot red"></span>
+          <span class="btn-dot yellow"></span>
+          <span class="btn-dot green"></span>
+        </div>
+        <div class="console-title">praveenraja@ai-core:~$ (Interactive CLI Console)</div>
+        <div class="console-actions">
+          <button id="clear-term-btn" class="term-btn">CLEAR</button>
+        </div>
+      </div>
+
+      <div class="console-body" id="console-body">
+        <div class="term-line output-welcome">
+          Welcome to <span class="neon-cyan">Praveenraja P's Interactive AI Terminal</span> [Version 2.4.0].<br>
+          Type <span class="neon-green">'help'</span> or click the quick command chips below to explore!
+        </div>
+
+        <!-- Quick Terminal Command Buttons -->
+        <div class="term-quick-chips">
+          <button class="chip-btn" data-cmd="bio">bio</button>
+          <button class="chip-btn" data-cmd="skills">skills</button>
+          <button class="chip-btn" data-cmd="internships">internships</button>
+          <button class="chip-btn" data-cmd="projects">projects</button>
+          <button class="chip-btn" data-cmd="achievements">achievements</button>
+          <button class="chip-btn" data-cmd="contact">contact</button>
+          <button class="chip-btn" data-cmd="clear">clear</button>
+        </div>
+
+        <div id="term-history"></div>
+
+        <!-- Input Line -->
+        <div class="term-input-line">
+          <span class="term-prompt">praveenraja@ai-core:~$</span>
+          <input type="text" id="term-input" class="term-input" placeholder="type 'help', 'skills', 'projects'..." autofocus autocomplete="off" spellcheck="false">
+        </div>
+      </div>
+    </section>
+
+    <!-- HOLOGRAPHIC BENTO MATRIX -->
+    <section class="cyber-section">
+      <div class="cyber-section-title">
+        <span class="title-bracket">[</span> FEATURED AI & BLOCKCHAIN PROJECTS <span class="title-bracket">]</span>
+      </div>
+
+      <div class="holo-grid">
+        <!-- Project 1: Zamin X -->
+        <div class="holo-card">
+          <div class="card-glow-edge"></div>
+          <div class="holo-card-header">
+            <span class="holo-tag">PROJECT 01 // BLOCKCHAIN</span>
+            <span class="holo-status">LIVE SYSTEM</span>
+          </div>
+          <h2 class="holo-card-title">ZAMIN X</h2>
+          <h3 class="holo-card-sub">Tamper-Proof Land Ownership & Dispute Resolution</h3>
+          <p class="holo-card-desc">
+            Immutable digital land registration and ownership transfer system using Blockchain architecture, Streamlit interactive dashboard, and Folium map visualizer to stop double-selling and data manipulation.
+          </p>
+          <div class="holo-tech-tags">
+            <span>Python</span>
+            <span>Blockchain</span>
+            <span>Streamlit</span>
+            <span>Folium Maps</span>
+            <span>JSON Ledger</span>
+          </div>
+        </div>
+
+        <!-- Project 2: CopBot -->
+        <div class="holo-card">
+          <div class="card-glow-edge"></div>
+          <div class="holo-card-header">
+            <span class="holo-tag">PROJECT 02 // GENERATIVE AI</span>
+            <span class="holo-status">AI ACTIVE</span>
+          </div>
+          <h2 class="holo-card-title">COPBOT</h2>
+          <h3 class="holo-card-sub">AI FIR & Legal Query System</h3>
+          <p class="holo-card-desc">
+            Automated legal query assistant and public grievance FIR filing platform powered by Generative AI models and prompt engineering pipelines.
+          </p>
+          <div class="holo-tech-tags">
+            <span>Generative AI</span>
+            <span>Prompt Engineering</span>
+            <span>JavaScript</span>
+            <span>Python</span>
+          </div>
+        </div>
+
+        <!-- Project 3: Marine Domain Awareness -->
+        <div class="holo-card">
+          <div class="card-glow-edge"></div>
+          <div class="holo-card-header">
+            <span class="holo-tag">PROJECT 03 // DEEP LEARNING</span>
+            <span class="holo-status">VISION MODEL</span>
+          </div>
+          <h2 class="holo-card-title">MARINE AWARENESS</h2>
+          <h3 class="holo-card-sub">Ship Detection & Movement Tracker</h3>
+          <p class="holo-card-desc">
+            Deep Learning and computer vision solution for detecting vessel movements, maritime tracking, and coastguard security monitoring.
+          </p>
+          <div class="holo-tech-tags">
+            <span>Deep Learning</span>
+            <span>Computer Vision</span>
+            <span>OpenCV</span>
+            <span>Python</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REAL-TIME INTERNSHIP SYSTEM LOGS -->
+    <section class="cyber-section">
+      <div class="cyber-section-title">
+        <span class="title-bracket">[</span> CAREER & INTERNSHIP EXECUTION LOGS <span class="title-bracket">]</span>
+      </div>
+
+      <div class="logs-container">
+        <div class="log-entry">
+          <div class="log-timestamp">[JUN 2026] EXECUTING LOG 04</div>
+          <div class="log-content">
+            <h4>Cloud Computing Intern @ Coriza</h4>
+            <p>Configured cloud infrastructure deployment, serverless function pipelines, scalable database clusters, and cloud security protocols.</p>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-timestamp">[JUN 2025 – JUL 2025] EXECUTING LOG 03</div>
+          <div class="log-content">
+            <h4>Generative AI Intern @ CISPRO, Coimbatore</h4>
+            <p>Designed LLM prompt pipelines, automated chatbot workflows, fine-tuned context parsing, and integrated GenAI modules into production apps.</p>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-timestamp">[JAN 2025 – FEB 2025] EXECUTING LOG 02</div>
+          <div class="log-content">
+            <h4>Machine Learning Intern @ Tech World, Coimbatore</h4>
+            <p>Engineered supervised & unsupervised ML models, performed data preprocessing, feature selection, and model accuracy benchmarking.</p>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-timestamp">[JUN 2024 – JUL 2024] EXECUTING LOG 01</div>
+          <div class="log-content">
+            <h4>Python Developer Intern @ CISPRO, Coimbatore</h4>
+            <p>Constructed modular Python automation scripts, file system parsers, database adapters, and interactive desktop application utilities.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SYSTEM STATS & ACHIEVEMENTS -->
+    <section class="cyber-section">
+      <div class="cyber-section-title">
+        <span class="title-bracket">[</span> SYSTEM METRICS & ACHIEVEMENTS <span class="title-bracket">]</span>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-box">
+          <div class="metric-value">8.80</div>
+          <div class="metric-label">B.TECH CGPA (ACADEMIC RANK 1)</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-value">TOP 500</div>
+          <div class="metric-label">NIRAL THIRUVIZHA 3.0 HACKATHON</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-value">WINNER</div>
+          <div class="metric-label">PROJECT EXPO 2025 (STATE LEVEL)</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-value">HEAD</div>
+          <div class="metric-label">INSTITUTION INNOVATION COUNCIL (IIC)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT COMMAND CONSOLE -->
+    <footer class="cyber-footer">
+      <div class="footer-box">
+        <h3>CONNECT WITH PRAVEENRAJA P</h3>
+        <p>EMAIL: <a href="mailto:Praveenrajapaids23@jkkmct.edu.in" class="neon-cyan">Praveenrajapaids23@jkkmct.edu.in</a> | PHONE: <a href="tel:+917603835392" class="neon-green">+91 7603835392</a></p>
+        <p>GITHUB: <a href="https://github.com/praveenraja143" target="_blank" class="neon-violet">https://github.com/praveenraja143</a></p>
+        <div class="copyright-line">© 2026 PRAVEENRAJA P | CYBERPUNK TERMINAL PORTFOLIO SYSTEM v2.4</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
