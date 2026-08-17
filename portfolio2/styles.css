@@ -29,6 +29,17 @@
   box-sizing: border-box;
 }
 
+button {
+  background: none;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 html, body {
   scroll-behavior: smooth;
   font-family: var(--font-body);
