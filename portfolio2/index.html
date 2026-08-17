@@ -3,430 +3,434 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Praveenraja P | Cinematic Motion & Walk Experience Portfolio</title>
-  <meta name="description" content="A cinematic developer portfolio where code meets storytelling and motion. Interactive experience of Praveenraja P - B.Tech AI & Data Science Engineer.">
+  <title>Praveenraja P | Cinematic Portfolio</title>
+  <meta name="description" content="Portfolio of Praveenraja P - B.Tech AI & Data Science Engineer, Generative AI Specialist, ML & Blockchain Developer.">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Reenie+Beanie&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="./styles.css">
-
-  <!-- ES Module Import Map for Three.js (Required for WebGL 3D Background) -->
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-    }
-  }
-  </script>
 </head>
 <body>
-
-  <!-- Preloader Screen -->
-  <div id="preloader" class="preloader">
-    <div class="preloader-box">
-      <div class="preloader-logo">PRAVEENRAJA P</div>
-      <div class="preloader-subtitle">CINEMATIC MOTION & STORYTELLING EXPERIENCE</div>
-      <div class="preloader-track"><div id="preloader-fill" class="preloader-fill"></div></div>
-      <div id="preloader-status" class="preloader-status">INITIALIZING SYSTEM... 0%</div>
-    </div>
-  </div>
-
-  <!-- WebGL 3D Canvas Background -->
-  <canvas id="webgl-bg"></canvas>
-
-  <!-- Grain Texture Overlay -->
-  <div class="grain-overlay"></div>
 
   <!-- Custom Cursor -->
   <div id="cursor-dot" class="cursor-dot"></div>
   <div id="cursor-ring" class="cursor-ring"></div>
 
-  <!-- Audio Effects Controller -->
-  <button id="audio-btn" class="audio-controller" title="Toggle Cinematic Sound">
-    <span class="sound-icon">🔊</span>
-    <span id="audio-status">SOUND: ON</span>
-  </button>
+  <!-- Background Ambient Glow & Subtle Particles -->
+  <div class="ambient-glow glow-top-left"></div>
+  <div class="ambient-glow glow-center-right"></div>
+  <div class="ambient-glow glow-bottom-left"></div>
+  <canvas id="bg-canvas"></canvas>
 
-  <!-- Navigation Bar with Pill Slider -->
-  <header class="navbar-wrapper">
-    <nav class="navbar glass-card">
-      <a href="../index.html" class="nav-brand">
-        PRAVEENRAJA <span class="brand-badge">CINEMATIC v2</span>
+  <!-- NAVIGATION BAR -->
+  <header class="navbar-container">
+    <nav class="navbar">
+      <a href="../index.html" class="nav-watermark">
+        PRAVEENRAJA<span class="dot">.</span>
       </a>
 
-      <div class="nav-pills-container">
-        <div class="nav-active-slider" id="nav-slider"></div>
-        <button class="nav-pill active" data-target="hero-scene">Hero</button>
-        <button class="nav-pill" data-target="story-scene">Story</button>
-        <button class="nav-pill" data-target="matrix-scene">Matrix</button>
-        <button class="nav-pill" data-target="projects-scene">Projects</button>
-        <button class="nav-pill" data-target="experience-scene">Logs</button>
-        <button class="nav-pill" data-target="contact-scene">Contact</button>
+      <div class="nav-pills-box">
+        <a href="#about" class="nav-pill-link">ABOUT</a>
+        <a href="#projects" class="nav-pill-link">PROJECTS</a>
+        <a href="#skills" class="nav-pill-link">SKILLS</a>
+        <a href="#experience" class="nav-pill-link">EXPERIENCE</a>
+        <a href="#contact" class="nav-pill-link">CONTACT</a>
       </div>
 
-      <a href="#contact-scene" class="btn-glow-cyan">Initiate Contact</a>
+      <a href="#contact" class="btn-talk-gold">LET'S TALK ↗</a>
     </nav>
   </header>
 
-  <!-- MAIN SCENE CONTAINER -->
-  <main class="cinematic-main">
+  <main class="page-stage">
 
-    <!-- HERO SCENE -->
-    <section class="scene-stage active" id="hero-scene">
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
       <div class="hero-grid">
+        
         <div class="hero-left">
-          <div class="scene-badge">
-            <span class="pulse-dot"></span>
-            CINEMATIC DEVELOPER SHOWCASE
+          <div class="hero-sub-tags">
+            <span>AI & DATA SCIENCE ENGINEER</span>
+            <span class="sep">•</span>
+            <span>GENERATIVE AI</span>
+            <span class="sep">•</span>
+            <span>BLOCKCHAIN</span>
           </div>
 
-          <h1 class="hero-headline">
-            WHERE CODE MEETS <br>
-            <span class="gradient-gold">STORYTELLING & MOTION</span>
+          <h1 class="hero-main-title">
+            I BUILD INTELLIGENT <br>
+            <span class="gold-gradient-text">AI SYSTEMS</span>
           </h1>
 
-          <div class="typewriter-box">
-            <span class="prefix">Praveenraja P —</span>
-            <span id="typewriter" class="typewriter-text"></span>
-            <span class="typewriter-cursor">|</span>
-          </div>
-
-          <p class="hero-desc">
-            B.Tech AI & Data Science Engineer (**8.80 CGPA Rank 1**). Architecting Generative AI applications, Deep Learning computer vision models, and immutable Blockchain land registries.
+          <p class="hero-paragraph">
+            I turn complex data into seamless intelligent experiences. Where machine learning meets scalable backend code, and algorithms transform vision into real-world impact.
           </p>
 
-          <div class="hero-actions">
-            <button class="btn-cinematic-primary" onclick="switchScene('projects-scene')">
-              <span>Explore Flagship Projects</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            <button class="btn-cinematic-ghost" onclick="switchScene('story-scene')">
-              <span>Begin Story Journey ↓</span>
-            </button>
-          </div>
-
-          <div class="stats-banner">
-            <div class="stat-box">
-              <span class="num">8.80</span>
-              <span class="lbl">B.Tech CGPA</span>
-            </div>
-            <div class="stat-box">
-              <span class="num">04</span>
-              <span class="lbl">Tech Internships</span>
-            </div>
-            <div class="stat-box">
-              <span class="num">15+</span>
-              <span class="lbl">Symposium Papers</span>
-            </div>
-            <div class="stat-box">
-              <span class="num">TOP 500</span>
-              <span class="lbl">Niral Thiruvizha 3.0</span>
-            </div>
+          <div class="hero-cta-group">
+            <a href="#projects" class="btn-gold-filled">
+              <span>EXPLORE MY WORK</span>
+              <span class="arrow">↗</span>
+            </a>
+            <a href="#contact" class="btn-gold-outline">
+              <span>GET IN TOUCH</span>
+              <span class="arrow">↗</span>
+            </a>
           </div>
         </div>
 
-        <!-- 3D Hologram Frame -->
+        <!-- HERO RIGHT: PHOTO FRAME WITH SIGNATURE -->
         <div class="hero-right">
-          <div class="holo-wrapper" id="holo-card">
-            <div class="holo-card glass-card">
-              <div class="holo-img-box">
-                <img src="../praveenraja.jpg" alt="Praveenraja P" class="profile-img">
-                <div class="scan-beam"></div>
-              </div>
-              <div class="holo-info">
-                <h3 class="name">PRAVEENRAJA P</h3>
-                <p class="title">AI & Data Science Architect</p>
-                <div class="loc">📍 Coimbatore, Tamil Nadu</div>
-                <div class="tags">
-                  <span>Generative AI</span>
-                  <span>Machine Learning</span>
-                  <span>Blockchain</span>
-                </div>
-              </div>
+          <div class="photo-card-frame">
+            <div class="photo-glow-border"></div>
+            <img src="../praveenraja.jpg" alt="Praveenraja P" class="hero-photo">
+            
+            <!-- Handwritten Cursive Annotation -->
+            <div class="photo-handwriting">
+              <span class="quote">"Code is my craft. Impact is my goal."</span>
+              <span class="signature">Praveenraja</span>
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
-    <!-- STORY SCENE WITH BUTTON SWAP -->
-    <section class="scene-stage" id="story-scene">
-      <div class="scene-header">
-        <span class="scene-tag">CHAPTER 01</span>
-        <h2 class="scene-title">The <span class="gradient-cyan">Architect's Journey</span></h2>
-        <p class="scene-subtitle">Click the category buttons below to swap between story chapters.</p>
-      </div>
+    <!-- SECTION 01: ABOUT ME -->
+    <section class="section-block" id="about">
+      <div class="section-header-tag">01 / ABOUT ME</div>
+      
+      <div class="about-flex-layout">
+        <div class="about-content">
+          <h2 class="section-headline">
+            I DON'T JUST WRITE CODE. <br>
+            <span class="gold-gradient-text">I BUILD WHAT'S NEXT.</span>
+          </h2>
 
-      <div class="button-swap-bar">
-        <button class="swap-btn active" data-tab="academic">Academic Rank 1</button>
-        <button class="swap-btn" data-tab="ai-skills">Generative AI & Prototyping</button>
-        <button class="swap-btn" data-tab="blockchain">Blockchain Systems</button>
-        <button class="swap-btn" data-tab="leadership">Student Leadership</button>
-      </div>
-
-      <div class="swap-panels-wrapper">
-        <div class="swap-panel active" id="panel-academic">
-          <div class="panel-card glass-card">
-            <div class="panel-icon">🎓</div>
-            <h3>B.Tech AI & Data Science (8.80 CGPA)</h3>
-            <p>Studying at JKKM College of Technology (2023 - 2027). Awarded <strong>Class Topper 2025</strong> for rank 1 academic score, Data Structures, Algorithms, Python, and Machine Learning.</p>
-          </div>
-        </div>
-
-        <div class="swap-panel" id="panel-ai-skills">
-          <div class="panel-card glass-card">
-            <div class="panel-icon">⚡</div>
-            <h3>Generative AI & Rapid Prototyping</h3>
-            <p>Specialized in LLM Prompt Engineering, custom AI agents, automated code debugging, and Streamlit user interfaces. Developed platforms like <strong>CopBot</strong> for legal assistance.</p>
-          </div>
-        </div>
-
-        <div class="swap-panel" id="panel-blockchain">
-          <div class="panel-card glass-card">
-            <div class="panel-icon">🌐</div>
-            <h3>Immutable Blockchain Systems</h3>
-            <p>Architect of <strong>Zamin X</strong>, a tamper-proof digital land registration and dispute resolution platform using cryptographic hashing, Streamlit UI, and Folium geospatial mapping to eliminate land fraud.</p>
-          </div>
-        </div>
-
-        <div class="swap-panel" id="panel-leadership">
-          <div class="panel-card glass-card">
-            <div class="panel-icon">🏆</div>
-            <h3>Student Head - Institution Innovation Council</h3>
-            <p>Leading the Institution Innovation Council (IIC). Organized 15+ technical symposiums, workshops, and hackathons. Winner of <strong>State Level Project Expo 2025</strong> and Top 500 finalist in Niral Thiruvizha 3.0.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- NEURAL MATRIX SCENE -->
-    <section class="scene-stage" id="matrix-scene">
-      <div class="scene-header">
-        <span class="scene-tag">CHAPTER 02</span>
-        <h2 class="scene-title">Neural <span class="gradient-gold">Skill Matrix</span></h2>
-        <p class="scene-subtitle">Filter competencies using the category buttons below.</p>
-      </div>
-
-      <div class="button-swap-bar">
-        <button class="filter-btn active" data-filter="all">All Skills</button>
-        <button class="filter-btn" data-filter="ai">AI & ML</button>
-        <button class="filter-btn" data-filter="code">Programming & DSA</button>
-        <button class="filter-btn" data-filter="tools">Tools & Platforms</button>
-      </div>
-
-      <div class="matrix-grid">
-        <div class="matrix-card glass-card" data-cat="ai">
-          <div class="matrix-head">
-            <span class="name">Generative AI & LLMs</span>
-            <span class="perc">95%</span>
-          </div>
-          <p>Prompt Engineering, AI Agents, Code Debugging, Custom AI Workflows.</p>
-          <div class="progress-bar"><div class="fill" style="width: 95%;"></div></div>
-        </div>
-
-        <div class="matrix-card glass-card" data-cat="ai">
-          <div class="matrix-head">
-            <span class="name">Machine Learning & DL</span>
-            <span class="perc">90%</span>
-          </div>
-          <p>Supervised/Unsupervised Models, Neural Networks, Computer Vision (YOLO/OpenCV).</p>
-          <div class="progress-bar"><div class="fill" style="width: 90%;"></div></div>
-        </div>
-
-        <div class="matrix-card glass-card" data-cat="code">
-          <div class="matrix-head">
-            <span class="name">Python Development</span>
-            <span class="perc">96%</span>
-          </div>
-          <p>NumPy, Pandas, Scikit-Learn, Streamlit, Folium, System Scripting.</p>
-          <div class="progress-bar"><div class="fill" style="width: 96%;"></div></div>
-        </div>
-
-        <div class="matrix-card glass-card" data-cat="code">
-          <div class="matrix-head">
-            <span class="name">Java & Data Structures</span>
-            <span class="perc">85%</span>
-          </div>
-          <p>Object-Oriented Programming, Arrays, Trees, Graphs, Optimization.</p>
-          <div class="progress-bar"><div class="fill" style="width: 85%;"></div></div>
-        </div>
-
-        <div class="matrix-card glass-card" data-cat="ai">
-          <div class="matrix-head">
-            <span class="name">Blockchain & Smart Contracts</span>
-            <span class="perc">88%</span>
-          </div>
-          <p>Cryptographic Hashing, Immutable Land Registry (Zamin X), Ledger Architecture.</p>
-          <div class="progress-bar"><div class="fill" style="width: 88%;"></div></div>
-        </div>
-
-        <div class="matrix-card glass-card" data-cat="tools">
-          <div class="matrix-head">
-            <span class="name">VS Code, Windsurf & Git</span>
-            <span class="perc">92%</span>
-          </div>
-          <p>Version Control, Automated CI/CD Workflows, Modern IDE Prompting, Figma.</p>
-          <div class="progress-bar"><div class="fill" style="width: 92%;"></div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS SHOWCASE SCENE -->
-    <section class="scene-stage" id="projects-scene">
-      <div class="scene-header">
-        <span class="scene-tag">CHAPTER 03</span>
-        <h2 class="scene-title">Flagship <span class="gradient-cyan">AI & Blockchain Projects</span></h2>
-      </div>
-
-      <div class="projects-bento">
-        <div class="bento-card glass-card bento-featured">
-          <div class="badge">FEATURED SYSTEM // BLOCKCHAIN</div>
-          <h3 class="title">Zamin X - Land Ownership & Dispute Resolution</h3>
-          <p class="desc">
-            Immutable digital land registration and ownership transfer system using <strong>Blockchain technology</strong>, <strong>Streamlit UI</strong>, and <strong>Folium geospatial mapping</strong>. Eliminates fraudulent land sales, double-selling, and dispute delays.
+          <p class="about-bio-text">
+            I'm <strong>Praveenraja P</strong>, a B.Tech AI & Data Science engineer specializing in building scalable web architectures, AI-integrated platforms, and refined digital experiences. With a strong algorithmic foundation (**8.80 CGPA Rank 1**) and a focus on clean engineering, I turn complex requirements into impactful products.
           </p>
-          <div class="tags">
-            <span>Blockchain</span>
-            <span>Python</span>
-            <span>Streamlit</span>
-            <span>Folium Maps</span>
-            <span>JSON Ledger</span>
+
+          <!-- STAT COUNTERS GRID -->
+          <div class="stat-counters-grid">
+            <div class="stat-card">
+              <span class="stat-num">8.80</span>
+              <span class="stat-lbl">B.TECH CGPA (RANK 1)</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-num">4+</span>
+              <span class="stat-lbl">TECH INTERNSHIPS</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-num">15+</span>
+              <span class="stat-lbl">SYMPOSIUM PRESENTATIONS</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-num">TOP 500</span>
+              <span class="stat-lbl">NIRAL THIRUVIZHA 3.0</span>
+            </div>
           </div>
-          <button class="btn-cinematic-primary btn-modal-trigger" data-title="Zamin X System Architecture" data-desc="Developed a secure digital land registration and ownership management system using blockchain technology. Includes land registration, ownership transfer, GST payment tracking, and map-based land visualization to eliminate land disputes and data tampering.">View System Architecture</button>
         </div>
 
-        <div class="bento-card glass-card">
-          <div class="badge">GENERATIVE AI</div>
-          <h3 class="title">CopBot - AI FIR & Legal Assistant</h3>
-          <p class="desc">
-            AI legal query resolution and automated FIR registration assistant built with Generative AI prompt pipelines and web interface.
-          </p>
-          <div class="tags">
-            <span>Generative AI</span>
-            <span>Prompt Engineering</span>
-            <span>JavaScript</span>
-            <span>Python</span>
+        <div class="about-photo-side">
+          <div class="about-framed-image">
+            <img src="../praveenraja.jpg" alt="Praveenraja P" class="about-img">
+            <div class="about-signature-tag">Praveenraja P</div>
           </div>
-          <button class="btn-cinematic-primary btn-modal-trigger" data-title="CopBot AI Architecture" data-desc="Built an AI-powered chatbot for legal assistance, public grievance handling, and automated FIR registration using Generative AI and prompt engineering techniques to deliver ultra-fast public support.">View System Architecture</button>
-        </div>
-
-        <div class="bento-card glass-card">
-          <div class="badge">COMPUTER VISION</div>
-          <h3 class="title">Marine Domain Awareness System</h3>
-          <p class="desc">
-            Deep Learning ship detection and vessel movement surveillance tracking system for coastguard maritime security.
-          </p>
-          <div class="tags">
-            <span>Deep Learning</span>
-            <span>Computer Vision</span>
-            <span>OpenCV</span>
-            <span>Python</span>
-          </div>
-          <button class="btn-cinematic-primary btn-modal-trigger" data-title="Marine Awareness Architecture" data-desc="Implemented ship detection and movement tracking using Deep Learning and computer vision techniques for maritime surveillance and real-time security.">View System Architecture</button>
         </div>
       </div>
     </section>
 
-    <!-- INTERNSHIPS LOGS SCENE -->
-    <section class="scene-stage" id="experience-scene">
-      <div class="scene-header">
-        <span class="scene-tag">CHAPTER 04</span>
-        <h2 class="scene-title">4 Technical <span class="gradient-gold">Internship Logs</span></h2>
-      </div>
+    <!-- SECTION 02: FEATURED WORKS -->
+    <section class="section-block" id="projects">
+      <div class="section-header-tag">02 / FEATURED WORKS</div>
+      <h2 class="section-headline">
+        SELECTED WORKS. <br>
+        <span class="gold-gradient-text">ENGINEERED VALUE.</span>
+      </h2>
 
-      <div class="internships-grid">
-        <div class="intern-card glass-card">
-          <div class="date">JUN 2026</div>
-          <h3>Cloud Computing Intern</h3>
-          <h4>Coriza</h4>
-          <p>Configured cloud infrastructure deployment, serverless pipelines, database management, and scalable cloud configurations.</p>
+      <div class="stacked-projects-list">
+
+        <!-- PROJECT 01: Zamin X -->
+        <div class="project-stacked-card">
+          <div class="project-left-info">
+            <span class="project-cat-tag">01 // BLOCKCHAIN & PYTHON</span>
+            <h3 class="project-name">ZAMIN X</h3>
+            <h4 class="project-subname">Tamper-Proof Land Ownership & Dispute Resolution System</h4>
+            <p class="project-desc">
+              An immutable digital land registration and ownership transfer management system powered by Blockchain technology, Streamlit UI, and Folium map visualization. Eliminates land fraud, double-selling, and dispute delays.
+            </p>
+            <div class="project-tech-pills">
+              <span>BLOCKCHAIN</span>
+              <span>PYTHON</span>
+              <span>STREAMLIT</span>
+              <span>FOLIUM MAPS</span>
+              <span>JSON LEDGER</span>
+            </div>
+            <a href="https://github.com/praveenraja143" target="_blank" class="btn-project-link">VIEW ON GITHUB ↗</a>
+          </div>
+
+          <div class="project-right-metrics">
+            <div class="metric-row">
+              <span class="m-label">ARCHITECTURE</span>
+              <span class="m-val">BLOCKCHAIN LEDGER</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">SECURITY</span>
+              <span class="m-val">SHA-256 HASHING</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">GEOSPATIAL</span>
+              <span class="m-val">FOLIUM INTERACTIVE</span>
+            </div>
+          </div>
         </div>
 
-        <div class="intern-card glass-card">
-          <div class="date">JUN 2025 – JUL 2025</div>
-          <h3>Generative AI Intern</h3>
-          <h4>CISPRO, Coimbatore</h4>
-          <p>Designed LLM prompt pipelines, automated chatbot workflows, fine-tuned context parsing, and integrated GenAI modules.</p>
+        <!-- PROJECT 02: CopBot -->
+        <div class="project-stacked-card">
+          <div class="project-left-info">
+            <span class="project-cat-tag">02 // GENERATIVE AI</span>
+            <h3 class="project-name">COPBOT</h3>
+            <h4 class="project-subname">AI-Based FIR & Legal Query Assistance System</h4>
+            <p class="project-desc">
+              AI-powered chatbot for legal assistance, public grievance handling, and automated FIR registration using Generative AI LLM models and prompt engineering techniques to deliver ultra-fast public support.
+            </p>
+            <div class="project-tech-pills">
+              <span>GENERATIVE AI</span>
+              <span>PROMPT ENGINEERING</span>
+              <span>JAVASCRIPT</span>
+              <span>PYTHON</span>
+            </div>
+            <a href="https://github.com/praveenraja143" target="_blank" class="btn-project-link">VIEW ON GITHUB ↗</a>
+          </div>
+
+          <div class="project-right-metrics">
+            <div class="metric-row">
+              <span class="m-label">AI MODEL</span>
+              <span class="m-val">GENAI PIPELINES</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">LATENCY</span>
+              <span class="m-val">SUB-SECOND RESPONSE</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">INTERFACE</span>
+              <span class="m-val">WEB BOT CONSOLE</span>
+            </div>
+          </div>
         </div>
 
-        <div class="intern-card glass-card">
-          <div class="date">JAN 2025 – FEB 2025</div>
-          <h3>Machine Learning Intern</h3>
-          <h4>Tech World, Coimbatore</h4>
-          <p>Engineered supervised/unsupervised ML models, dataset processing, feature engineering, and model validation frameworks.</p>
+        <!-- PROJECT 03: Marine Domain Awareness -->
+        <div class="project-stacked-card">
+          <div class="project-left-info">
+            <span class="project-cat-tag">03 // DEEP LEARNING & CV</span>
+            <h3 class="project-name">MARINE DOMAIN AWARENESS</h3>
+            <h4 class="project-subname">Ship Detection & Vessel Movement Tracker</h4>
+            <p class="project-desc">
+              Implemented ship detection and movement tracking using Deep Learning and computer vision techniques for maritime surveillance and real-time coastguard security monitoring.
+            </p>
+            <div class="project-tech-pills">
+              <span>DEEP LEARNING</span>
+              <span>COMPUTER VISION</span>
+              <span>OPENCV</span>
+              <span>PYTHON</span>
+            </div>
+            <a href="https://github.com/praveenraja143" target="_blank" class="btn-project-link">VIEW ON GITHUB ↗</a>
+          </div>
+
+          <div class="project-right-metrics">
+            <div class="metric-row">
+              <span class="m-label">COMPUTER VISION</span>
+              <span class="m-val">YOLO & OPENCV</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">ACCURACY</span>
+              <span class="m-val">96.4% DETECTION</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">DOMAIN</span>
+              <span class="m-val">MARITIME SURVEILLANCE</span>
+            </div>
+          </div>
         </div>
 
-        <div class="intern-card glass-card">
-          <div class="date">JUN 2024 – JUL 2024</div>
-          <h3>Python Developer Intern</h3>
-          <h4>CISPRO, Coimbatore</h4>
-          <p>Constructed modular Python automation scripts, file system parsers, database adapters, and interactive tool utilities.</p>
-        </div>
       </div>
     </section>
 
-    <!-- CONTACT SCENE -->
-    <section class="scene-stage" id="contact-scene">
-      <div class="contact-box glass-card">
-        <div class="scene-tag" style="text-align: center;">CHAPTER 05</div>
-        <h2 class="scene-title" style="text-align: center;">Initiate <span class="gradient-cyan">Contact</span></h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 40px;">Open for AI/ML engineering roles, internships, and research collaborations.</p>
+    <!-- SECTION 03: TECH MATRIX & SKILLS -->
+    <section class="section-block" id="skills">
+      <div class="section-header-tag">03 / TECH MATRIX</div>
+      <h2 class="section-headline">
+        ARCHITECTURAL MASTERY. <br>
+        <span class="gold-gradient-text">PRECISION APPLIED.</span>
+      </h2>
 
-        <div class="contact-methods">
-          <div class="method-card">
-            <span class="icon">📧</span>
-            <div>
-              <span class="lbl">Email Address</span>
-              <a href="mailto:Praveenrajapaids23@jkkmct.edu.in" class="val">Praveenrajapaids23@jkkmct.edu.in</a>
-            </div>
-          </div>
-
-          <div class="method-card">
-            <span class="icon">📱</span>
-            <div>
-              <span class="lbl">Phone Number</span>
-              <a href="tel:+917603835392" class="val">+91 7603835392</a>
-            </div>
-          </div>
-
-          <div class="method-card">
-            <span class="icon">📍</span>
-            <div>
-              <span class="lbl">Location</span>
-              <span class="val">Coimbatore, Tamil Nadu, India</span>
-            </div>
+      <div class="skills-architecture-grid">
+        
+        <div class="skill-arch-card">
+          <div class="card-tag">AI & GENERATIVE AI</div>
+          <h3>GENERATIVE AI & LLMs</h3>
+          <p>Specialized in Prompt Engineering, Custom AI Workflows, LLM Agents, Code Debugging, and RAG Architecture.</p>
+          <div class="skill-pills-row">
+            <span>LLMs</span>
+            <span>PROMPT ENG</span>
+            <span>AI AGENTS</span>
+            <span>LANGCHAIN</span>
           </div>
         </div>
 
-        <div class="contact-actions">
-          <a href="mailto:Praveenrajapaids23@jkkmct.edu.in" class="btn-cinematic-primary">Send Email Message</a>
-          <a href="https://github.com/praveenraja143" target="_blank" class="btn-cinematic-ghost">GitHub Profile</a>
+        <div class="skill-arch-card">
+          <div class="card-tag">MACHINE LEARNING</div>
+          <h3>DEEP LEARNING & VISION</h3>
+          <p>Supervised/Unsupervised Machine Learning, Computer Vision object detection (OpenCV/YOLO), Neural Networks.</p>
+          <div class="skill-pills-row">
+            <span>PYTHON</span>
+            <span>OPENCV</span>
+            <span>NEURAL NETS</span>
+            <span>SCIKIT</span>
+          </div>
+        </div>
+
+        <div class="skill-arch-card">
+          <div class="card-tag">PROGRAMMING & DSA</div>
+          <h3>PYTHON, JAVA & ALGORITHMS</h3>
+          <p>Core Data Structures, Data Processing (NumPy/Pandas), Object-Oriented Java, Streamlit dashboards.</p>
+          <div class="skill-pills-row">
+            <span>PYTHON</span>
+            <span>JAVA</span>
+            <span>DSA</span>
+            <span>STREAMLIT</span>
+          </div>
+        </div>
+
+        <div class="skill-arch-card">
+          <div class="card-tag">BLOCKCHAIN & TOOLS</div>
+          <h3>SMART CONTRACTS & CI/CD</h3>
+          <p>Cryptographic hashing, Immutable land registries, Git/GitHub version control, VS Code, Windsurf, Figma.</p>
+          <div class="skill-pills-row">
+            <span>BLOCKCHAIN</span>
+            <span>GIT</span>
+            <span>WINDSURF</span>
+            <span>FIGMA</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 04: EXPERIENCE & MILESTONES -->
+    <section class="section-block" id="experience">
+      <div class="section-header-tag">04 / EXPERIENCE</div>
+      <h2 class="section-headline">
+        EXPERIENCE & <br>
+        <span class="gold-gradient-text">MILESTONES.</span>
+      </h2>
+
+      <div class="gold-timeline-wrapper">
+        <div class="gold-timeline-line"></div>
+
+        <div class="timeline-entry">
+          <div class="t-year">2026</div>
+          <div class="t-details">
+            <h3>CLOUD COMPUTING INTERN</h3>
+            <h4>Coriza</h4>
+            <p>Configured cloud infrastructure deployment, serverless pipelines, database management, and scalable cloud configurations.</p>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="t-year">2025</div>
+          <div class="t-details">
+            <h3>GENERATIVE AI INTERN</h3>
+            <h4>CISPRO, Coimbatore</h4>
+            <p>Designed LLM prompt pipelines, automated chatbot workflows, fine-tuned context parsing, and integrated GenAI modules.</p>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="t-year">2025</div>
+          <div class="t-details">
+            <h3>MACHINE LEARNING INTERN</h3>
+            <h4>Tech World, Coimbatore</h4>
+            <p>Engineered supervised/unsupervised ML models, dataset processing, feature engineering, and model validation frameworks.</p>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="t-year">2024</div>
+          <div class="t-details">
+            <h3>PYTHON DEVELOPER INTERN</h3>
+            <h4>CISPRO, Coimbatore</h4>
+            <p>Constructed modular Python automation scripts, file system parsers, database adapters, and interactive tool utilities.</p>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="t-year">2023 - 2027</div>
+          <div class="t-details">
+            <h3>B.TECH IN AI & DATA SCIENCE</h3>
+            <h4>JKKM College of Technology (CGPA: 8.80 Rank 1)</h4>
+            <p>Class Topper 2025, Project Expo Winner 2025, Student Head of Institution Innovation Council (IIC).</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 05: CONTACT / TRANSMISSION -->
+    <section class="section-block" id="contact">
+      <div class="section-header-tag">05 / CONTACT</div>
+      <h2 class="section-headline">
+        INITIALIZE <br>
+        <span class="gold-gradient-text">TRANSMISSION.</span>
+      </h2>
+
+      <div class="contact-transmission-box">
+        <p class="contact-subtext">Have an ambitious project or open role? Send a message or direct dispatch.</p>
+
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('Transmission Sent!');">
+          <div class="form-row">
+            <div class="field-group">
+              <label>YOUR NAME</label>
+              <input type="text" placeholder="e.g. Elon Musk" required>
+            </div>
+            <div class="field-group">
+              <label>YOUR EMAIL</label>
+              <input type="email" placeholder="e.g. elon@x.com" required>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>SUBJECT</label>
+            <input type="text" placeholder="Project Opportunity / AI Collaboration" required>
+          </div>
+
+          <div class="field-group">
+            <label>YOUR MESSAGE</label>
+            <textarea rows="5" placeholder="Tell me about your project or role requirements..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-gold-filled btn-submit">
+            <span>INITIATE DISPATCH</span>
+            <span class="arrow">↗</span>
+          </button>
+        </form>
+
+        <div class="contact-direct-links">
+          <span>EMAIL: <a href="mailto:Praveenrajapaids23@jkkmct.edu.in">Praveenrajapaids23@jkkmct.edu.in</a></span>
+          <span>PHONE: <a href="tel:+917603835392">+91 7603835392</a></span>
+          <span>GITHUB: <a href="https://github.com/praveenraja143" target="_blank">github.com/praveenraja143</a></span>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Modal Popup -->
-  <div id="modal-overlay" class="modal-overlay">
-    <div class="modal-box glass-card">
-      <button id="modal-close-btn" class="modal-close-btn">✕</button>
-      <div class="modal-tag">PROJECT ARCHITECTURE DETAILS</div>
-      <h2 id="modal-title" class="modal-title"></h2>
-      <p id="modal-desc" class="modal-desc"></p>
-    </div>
-  </div>
-
-  <footer class="footer">
-    <p>© 2026 Praveenraja P. Designed with Cinematic Motion & Button Swap Animations.</p>
+  <footer class="footer-bar">
+    <p>© 2026 PRAVEENRAJA P. BUILT WITH CODE. DESIGNED WITH INTENTION.</p>
   </footer>
 
-  <!-- Scripts -->
-  <script type="module" src="./bg3d.js"></script>
-  <script type="module" src="./app.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>

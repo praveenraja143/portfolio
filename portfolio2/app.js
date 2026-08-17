@@ -1,222 +1,12 @@
-// Portfolio 2: Full Scrollable Cinematic Motion Engine
+// Portfolio 2: Video-Match Experiential Logic
 
 document.addEventListener('DOMContentLoaded', () => {
-  initPreloader();
-  initAudioEngine();
-  initScrollNavObserver();
-  initMouseSpotlight();
-  initCategorySwapTabs();
-  initSkillFilterSwap();
   initCustomCursor();
-  initTypewriter();
-  initTiltCard();
-  initModalSystem();
+  initBackgroundParticles();
+  initScrollNavHighlight();
 });
 
-/* 1. Preloader */
-function initPreloader() {
-  const preloader = document.getElementById('preloader');
-  const fill = document.getElementById('preloader-fill');
-  const status = document.getElementById('preloader-status');
-
-  if (!preloader || !fill || !status) return;
-
-  let progress = 0;
-  const timer = setInterval(() => {
-    progress += Math.floor(Math.random() * 15) + 5;
-    if (progress > 100) progress = 100;
-
-    fill.style.width = `${progress}%`;
-    status.textContent = `INITIALIZING NEURAL MATRIX... ${progress}%`;
-
-    if (progress === 100) {
-      clearInterval(timer);
-      setTimeout(() => {
-        preloader.classList.add('fade-out');
-      }, 400);
-    }
-  }, 60);
-}
-
-/* 2. Audio Effects Engine */
-let audioActive = true;
-let audioContext = null;
-
-function initAudioEngine() {
-  const btn = document.getElementById('audio-btn');
-  const label = document.getElementById('audio-status');
-
-  if (btn) {
-    btn.addEventListener('click', () => {
-      audioActive = !audioActive;
-      if (label) label.textContent = audioActive ? 'SOUND: ON' : 'SOUND: OFF';
-      if (audioActive) playSound(580, 0.08, 'sine');
-    });
-  }
-
-  const interactive = document.querySelectorAll('button, a, .glass-card');
-  interactive.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      if (audioActive) playSound(440, 0.03, 'triangle');
-    });
-    el.addEventListener('click', () => {
-      if (audioActive) playSound(880, 0.06, 'sine');
-    });
-  });
-}
-
-function playSound(freq, duration, type = 'sine') {
-  try {
-    if (!audioContext) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      audioContext = new AudioCtx();
-    }
-    if (audioContext.state === 'suspended') audioContext.resume();
-
-    const osc = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, audioContext.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(freq * 0.5, audioContext.currentTime + duration);
-
-    gain.gain.setValueAtTime(0.04, audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
-
-    osc.connect(gain);
-    gain.connect(audioContext.destination);
-
-    osc.start();
-    osc.stop(audioContext.currentTime + duration);
-  } catch (e) {}
-}
-
-/* 3. Mouse Spotlight Radial Glow for Glass Cards */
-function initMouseSpotlight() {
-  const cards = document.querySelectorAll('.glass-card');
-  cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
-    });
-  });
-}
-
-/* 4. Scroll-Driven Intersection Observer & Active Navbar Pill Slider */
-function initScrollNavObserver() {
-  const stages = document.querySelectorAll('.scene-stage');
-  const pills = document.querySelectorAll('.nav-pill');
-  const slider = document.getElementById('nav-slider');
-
-  function updateSlider(activePill) {
-    if (!slider || !activePill) return;
-    const parentRect = activePill.parentElement.getBoundingClientRect();
-    const pillRect = activePill.getBoundingClientRect();
-    slider.style.left = `${pillRect.left - parentRect.left}px`;
-    slider.style.width = `${pillRect.width}px`;
-  }
-
-  // Intersection Observer for scroll-driven scene reveal & active nav highlight
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-
-        const id = entry.target.getAttribute('id');
-        pills.forEach(pill => {
-          pill.classList.remove('active');
-          if (pill.getAttribute('data-target') === id) {
-            pill.classList.add('active');
-            updateSlider(pill);
-          }
-        });
-      }
-    });
-  }, { threshold: 0.2 });
-
-  stages.forEach(stage => observer.observe(stage));
-
-  // Navbar Pill Click for smooth scrolling
-  pills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      const targetId = pill.getAttribute('data-target');
-      const targetElem = document.getElementById(targetId);
-
-      if (targetElem) {
-        targetElem.scrollIntoView({ behavior: 'smooth' });
-      }
-
-      if (audioActive) playSound(640, 0.08, 'sine');
-    });
-  });
-
-  const firstActive = document.querySelector('.nav-pill.active');
-  if (firstActive) updateSlider(firstActive);
-
-  window.addEventListener('resize', () => {
-    const current = document.querySelector('.nav-pill.active');
-    if (current) updateSlider(current);
-  });
-}
-
-window.switchScene = function(targetId) {
-  const target = document.getElementById(targetId);
-  if (target) {
-    target.scrollIntoView({ behavior: 'smooth' });
-  }
-};
-
-/* 5. Category Tab Panel Swap with 3D Flip */
-function initCategorySwapTabs() {
-  const swapBtns = document.querySelectorAll('.swap-btn');
-  const panels = document.querySelectorAll('.swap-panel');
-
-  swapBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      swapBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const tab = btn.getAttribute('data-tab');
-      panels.forEach(p => {
-        p.classList.remove('active');
-        if (p.id === `panel-${tab}`) {
-          p.classList.add('active');
-        }
-      });
-
-      if (audioActive) playSound(520, 0.05, 'triangle');
-    });
-  });
-}
-
-/* 6. Skill Matrix Filter */
-function initSkillFilterSwap() {
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const cards = document.querySelectorAll('.matrix-card');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const cat = btn.getAttribute('data-filter');
-      cards.forEach(c => {
-        if (cat === 'all' || c.getAttribute('data-cat') === cat) {
-          c.style.display = 'block';
-        } else {
-          c.style.display = 'none';
-        }
-      });
-
-      if (audioActive) playSound(480, 0.05, 'sine');
-    });
-  });
-}
-
-/* 7. Custom Follower Cursor */
+/* 1. Custom Follower Cursor */
 function initCustomCursor() {
   const dot = document.getElementById('cursor-dot');
   const ring = document.getElementById('cursor-ring');
@@ -239,85 +29,80 @@ function initCustomCursor() {
   renderRing();
 }
 
-/* 8. Typewriter Effect */
-function initTypewriter() {
-  const target = document.getElementById('typewriter');
-  if (!target) return;
+/* 2. Ambient Particle Canvas Background */
+function initBackgroundParticles() {
+  const canvas = document.getElementById('bg-canvas');
+  if (!canvas) return;
 
-  const phrases = [
-    "AI & Data Science Architect",
-    "Generative AI & LLM Specialist",
-    "Machine Learning & Computer Vision",
-    "Blockchain Land Registry Builder"
-  ];
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
 
-  let phraseIdx = 0, charIdx = 0, isDeleting = false;
-
-  function type() {
-    const current = phrases[phraseIdx];
-    if (isDeleting) {
-      target.textContent = current.substring(0, charIdx - 1);
-      charIdx--;
-    } else {
-      target.textContent = current.substring(0, charIdx + 1);
-      charIdx++;
-    }
-
-    let speed = isDeleting ? 40 : 80;
-    if (!isDeleting && charIdx === current.length) {
-      speed = 2200;
-      isDeleting = true;
-    } else if (isDeleting && charIdx === 0) {
-      isDeleting = false;
-      phraseIdx = (phraseIdx + 1) % phrases.length;
-      speed = 400;
-    }
-    setTimeout(type, speed);
-  }
-  type();
-}
-
-/* 9. 3D Hologram Tilt Card */
-function initTiltCard() {
-  const card = document.getElementById('holo-card');
-  if (!card) return;
-
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-
-    const rotX = (y / (rect.height / 2)) * -14;
-    const rotY = (x / (rect.width / 2)) * 14;
-
-    card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
   });
 
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = 'rotateX(0deg) rotateY(0deg)';
-  });
-}
+  const particles = [];
+  const particleCount = Math.min(Math.floor(width / 18), 50);
 
-/* 10. Modal System */
-function initModalSystem() {
-  const overlay = document.getElementById('modal-overlay');
-  const titleElem = document.getElementById('modal-title');
-  const descElem = document.getElementById('modal-desc');
-  const closeBtn = document.getElementById('modal-close-btn');
-
-  if (!overlay || !titleElem || !descElem) return;
-
-  const triggers = document.querySelectorAll('.btn-modal-trigger');
-  triggers.forEach(t => {
-    t.addEventListener('click', () => {
-      titleElem.textContent = t.getAttribute('data-title');
-      descElem.textContent = t.getAttribute('data-desc');
-      overlay.classList.add('active');
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      radius: Math.random() * 1.8 + 0.8,
+      alpha: Math.random() * 0.4 + 0.1
     });
-  });
+  }
 
-  if (closeBtn) closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) overlay.classList.remove('active');
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0) p.x = width;
+      if (p.x > width) p.x = 0;
+      if (p.y < 0) p.y = height;
+      if (p.y > height) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(212, 175, 55, ${p.alpha})`;
+      ctx.fill();
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+/* 3. Scroll-Driven Navbar Link Active Observer */
+function initScrollNavHighlight() {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-pill-link');
+
+  window.addEventListener('scroll', () => {
+    let scrollY = window.scrollY;
+
+    sections.forEach(sec => {
+      const top = sec.offsetTop - 150;
+      const height = sec.offsetHeight;
+      const id = sec.getAttribute('id');
+
+      if (scrollY >= top && scrollY < top + height) {
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${id}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
   });
 }
