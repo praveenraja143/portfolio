@@ -1,4 +1,4 @@
-/* Portfolio 2: Cinematic Motion & Button Swap Design System */
+/* Portfolio 2: Cinematic Scroll-Driven Motion & Button Swap Design System */
 
 :root {
   --bg-dark: #050814;
@@ -20,7 +20,7 @@
   --font-body: 'Plus Jakarta Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   
-  --transition-swap: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-swap: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -279,8 +279,8 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
 .nav-pill {
   position: relative;
   z-index: 2;
-  background: transparent;
-  border: none;
+  background: transparent !important;
+  border: none !important;
   color: var(--text-muted);
   font-family: var(--font-body);
   font-size: 0.88rem;
@@ -313,28 +313,27 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   transform: scale(1.04);
 }
 
-/* MAIN STAGE & BUTTON SWAP SCENES */
+/* MAIN STAGE & SCROLL-DRIVEN SCENES */
 .cinematic-main {
   position: relative;
   z-index: 2;
-  min-height: 100vh;
-  padding: 140px 0 80px;
+  padding: 120px 0 80px;
   width: 90%;
   max-width: 1240px;
   margin: 0 auto;
 }
 
+/* SCROLL REVEAL ANIMATION FOR SCENES */
 .scene-stage {
-  display: none;
+  padding: 100px 0;
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(50px) scale(0.98);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.scene-stage.active {
-  display: block;
+.scene-stage.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 /* HERO SCENE */
@@ -343,6 +342,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   grid-template-columns: 1.2fr 0.8fr;
   gap: 50px;
   align-items: center;
+  min-height: 80vh;
 }
 
 .scene-badge {
@@ -413,7 +413,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   font-weight: 700;
   font-size: 0.95rem;
   border-radius: 40px;
-  border: none;
+  border: none !important;
   cursor: pointer;
   box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
   transition: var(--transition-swap);
@@ -429,7 +429,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   align-items: center;
   padding: 14px 28px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-glass);
+  border: 1px solid var(--border-glass) !important;
   color: var(--text-main);
   font-weight: 600;
   font-size: 0.95rem;
@@ -439,7 +439,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
 }
 
 .btn-cinematic-ghost:hover {
-  border-color: var(--cyan-glow);
+  border-color: var(--cyan-glow) !important;
   color: var(--cyan-glow);
   transform: translateY(-3px);
 }
@@ -461,7 +461,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
 
 .holo-img-box {
   position: relative;
-  width: 220px; height: 250px;
+  width: 240px; height: 280px;
   margin: 0 auto 20px;
   border-radius: 16px;
   overflow: hidden;
@@ -499,7 +499,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
 .swap-btn, .filter-btn {
   padding: 10px 24px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-glass);
+  border: 1px solid var(--border-glass) !important;
   color: var(--text-muted);
   border-radius: 30px;
   cursor: pointer;
@@ -510,7 +510,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
 
 .swap-btn.active, .swap-btn:hover, .filter-btn.active, .filter-btn:hover {
   background: rgba(0, 242, 254, 0.15);
-  border-color: var(--cyan-glow);
+  border-color: var(--cyan-glow) !important;
   color: var(--cyan-glow);
   box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
 }

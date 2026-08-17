@@ -1,9 +1,9 @@
-// Portfolio 2: Cinematic Motion & Button Swap Engine
+// Portfolio 2: Scroll-Driven Motion & Button Swap Engine
 
 document.addEventListener('DOMContentLoaded', () => {
   initPreloader();
   initAudioEngine();
-  initNavbarSlider();
+  initScrollNavObserver();
   initCategorySwapTabs();
   initSkillFilterSwap();
   initCustomCursor();
@@ -37,7 +37,7 @@ function initPreloader() {
   }, 60);
 }
 
-/* 2. Audio Effects */
+/* 2. Audio Effects Engine */
 let audioActive = true;
 let audioContext = null;
 
@@ -90,63 +90,65 @@ function playSound(freq, duration, type = 'sine') {
   } catch (e) {}
 }
 
-/* 3. Navbar Slider & Button Swap */
-function initNavbarSlider() {
+/* 3. Scroll-Driven Navigation Observer & Active Pill Slider */
+function initScrollNavObserver() {
+  const stages = document.querySelectorAll('.scene-stage');
   const pills = document.querySelectorAll('.nav-pill');
   const slider = document.getElementById('nav-slider');
 
-  if (!pills.length || !slider) return;
-
-  function updateSliderPosition(btn) {
-    const parentRect = btn.parentElement.getBoundingClientRect();
-    const btnRect = btn.getBoundingClientRect();
-    slider.style.left = `${btnRect.left - parentRect.left}px`;
-    slider.style.width = `${btnRect.width}px`;
+  function updateSlider(activePill) {
+    if (!slider || !activePill) return;
+    const parentRect = activePill.parentElement.getBoundingClientRect();
+    const pillRect = activePill.getBoundingClientRect();
+    slider.style.left = `${pillRect.left - parentRect.left}px`;
+    slider.style.width = `${pillRect.width}px`;
   }
 
-  const activePill = document.querySelector('.nav-pill.active');
-  if (activePill) updateSliderPosition(activePill);
+  // Intersection Observer for scroll-driven scene reveal & navbar update
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
 
+        const id = entry.target.getAttribute('id');
+        pills.forEach(pill => {
+          pill.classList.remove('active');
+          if (pill.getAttribute('data-target') === id) {
+            pill.classList.add('active');
+            updateSlider(pill);
+          }
+        });
+      }
+    });
+  }, { threshold: 0.25 });
+
+  stages.forEach(stage => observer.observe(stage));
+
+  // Navbar Pill Clicks for smooth scrolling
   pills.forEach(pill => {
     pill.addEventListener('click', () => {
-      pills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      updateSliderPosition(pill);
-
       const targetId = pill.getAttribute('data-target');
-      switchScene(targetId);
+      const targetElem = document.getElementById(targetId);
+
+      if (targetElem) {
+        targetElem.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   });
 
+  const firstActive = document.querySelector('.nav-pill.active');
+  if (firstActive) updateSlider(firstActive);
+
   window.addEventListener('resize', () => {
     const current = document.querySelector('.nav-pill.active');
-    if (current) updateSliderPosition(current);
+    if (current) updateSlider(current);
   });
 }
 
 window.switchScene = function(targetId) {
-  const stages = document.querySelectorAll('.scene-stage');
-  stages.forEach(s => s.classList.remove('active'));
-
   const target = document.getElementById(targetId);
   if (target) {
-    target.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  const matchingPill = document.querySelector(`.nav-pill[data-target="${targetId}"]`);
-  if (matchingPill) {
-    const pills = document.querySelectorAll('.nav-pill');
-    pills.forEach(p => p.classList.remove('active'));
-    matchingPill.classList.add('active');
-
-    const slider = document.getElementById('nav-slider');
-    if (slider) {
-      const parentRect = matchingPill.parentElement.getBoundingClientRect();
-      const btnRect = matchingPill.getBoundingClientRect();
-      slider.style.left = `${btnRect.left - parentRect.left}px`;
-      slider.style.width = `${btnRect.width}px`;
-    }
+    target.scrollIntoView({ behavior: 'smooth' });
   }
 };
 
@@ -214,7 +216,7 @@ function initCustomCursor() {
   renderRing();
 }
 
-/* 7. Typewriter */
+/* 7. Typewriter Effect */
 function initTypewriter() {
   const target = document.getElementById('typewriter');
   if (!target) return;

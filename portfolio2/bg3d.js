@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-class Motion3DBackground {
+class ScrollDrivenWalk3DBackground {
   constructor() {
     this.canvas = document.getElementById('webgl-bg');
     if (!this.canvas) return;
@@ -13,9 +13,17 @@ class Motion3DBackground {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+    this.scrollY = 0;
+    this.targetScrollY = 0;
+
     this.initLighting();
     this.initParticleGalaxy();
+    this.init3DGridFloor();
     this.initFloatingCubes();
+
+    window.addEventListener('scroll', () => {
+      this.targetScrollY = window.scrollY;
+    });
 
     window.addEventListener('resize', () => this.onWindowResize());
     this.animate();
@@ -35,7 +43,7 @@ class Motion3DBackground {
   }
 
   initParticleGalaxy() {
-    const count = 1200;
+    const count = 1500;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
@@ -44,9 +52,9 @@ class Motion3DBackground {
     const violetColor = new THREE.Color(0x7928ca);
 
     for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 160;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 160;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 160;
+      positions[i * 3] = (Math.random() - 0.5) * 180;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 180;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 180;
 
       const mixColor = Math.random() > 0.5 ? cyanColor : violetColor;
       colors[i * 3] = mixColor.r;
@@ -68,11 +76,20 @@ class Motion3DBackground {
     this.scene.add(this.particles);
   }
 
+  init3DGridFloor() {
+    const helper = new THREE.GridHelper(300, 40, 0x00f2fe, 0x7928ca);
+    helper.position.y = -35;
+    helper.material.opacity = 0.25;
+    helper.material.transparent = true;
+    this.gridFloor = helper;
+    this.scene.add(this.gridFloor);
+  }
+
   initFloatingCubes() {
     this.cubes = [];
-    const geometry = new THREE.BoxGeometry(2, 2, 2);
+    const geometry = new THREE.BoxGeometry(2.5, 2.5, 2.5);
 
-    for (let i = 0; i < 35; i++) {
+    for (let i = 0; i < 40; i++) {
       const material = new THREE.MeshBasicMaterial({
         color: Math.random() > 0.5 ? 0x00f2fe : 0x7928ca,
         wireframe: true,
@@ -81,7 +98,11 @@ class Motion3DBackground {
       });
 
       const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set((Math.random() - 0.5) * 100, (Math.random() - 0.5) * 80, (Math.random() - 0.5) * 60);
+      mesh.position.set(
+        (Math.random() - 0.5) * 120,
+        (Math.random() - 0.5) * 100,
+        (Math.random() - 0.5) * 100
+      );
 
       this.scene.add(mesh);
       this.cubes.push(mesh);
@@ -97,8 +118,20 @@ class Motion3DBackground {
   animate() {
     requestAnimationFrame(() => this.animate());
 
+    // Smooth lerp scroll for 3D camera travel
+    this.scrollY += (this.targetScrollY - this.scrollY) * 0.08;
+
+    // Camera travels in 3D space as user scrolls!
+    this.camera.position.z = 75 - this.scrollY * 0.02;
+    this.camera.position.y = -this.scrollY * 0.01;
+
+    if (this.gridFloor) {
+      this.gridFloor.position.z = (this.scrollY * 0.05) % 15;
+    }
+
     if (this.particles) {
       this.particles.rotation.y += 0.0015;
+      this.particles.rotation.x = this.scrollY * 0.0003;
     }
 
     if (this.cubes) {
@@ -113,5 +146,5 @@ class Motion3DBackground {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  new Motion3DBackground();
+  new ScrollDrivenWalk3DBackground();
 });
